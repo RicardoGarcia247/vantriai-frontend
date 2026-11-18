@@ -39,6 +39,16 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -143,3 +153,34 @@
     @apply font-sans;
   }
 }
+/* Trama sutil de fondo (retícula) para heroes y secciones destacadas */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, hsl(var(--brand-h) 30% 50% / 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, hsl(var(--brand-h) 30% 50% / 0.08) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 40%, transparent 100%);
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes flow-dash {
+  to { stroke-dashoffset: -24; }
+}
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-fade-up { animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-flow { stroke-dasharray: 6 6; animation: flow-dash 1.4s linear infinite; }
+.animate-float { animation: float-soft 6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up, .animate-flow, .animate-float { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }

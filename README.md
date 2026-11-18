@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VantriAI · Sitio web corporativo
 
-## Getting Started
-
-First, run the development server:
+Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · shadcn/ui · Lucide.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # compilación de producción
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> El proyecto incluye un `.npmrc` que fija el registro público de npm.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Estructura
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Ruta | Contenido |
+| --- | --- |
+| `src/content/*.ts` | **Contenido editorial** por página (textos, FAQ, CTA, SEO). Fuente: `docs/contenido-editorial.md`. Se actualiza aquí sin tocar componentes. |
+| `src/app/**/page.tsx` | Páginas: `/`, `/gobernanza-y-consultoria/`, `/tecnologia/`, `/tecnologia/automatizacion-de-procesos/`, `/tecnologia/desarrollo-de-software/`, `/nosotros/`, `/sectores/`, `/contacto/`, `/politica-de-privacidad/` y `not-found.tsx` (404). |
+| `src/components/site/` | Sistema de diseño del sitio: header, footer, hero, FAQ, CTA, listas, breadcrumbs, formulario. |
+| `src/components/diagrams/` | Recursos visuales (flujo de aprobación, complemento de focos, pasos, maquetas). |
+| `src/components/ui/` | Componentes shadcn/ui. |
+| `src/lib/site.ts` | Datos globales: contacto, navegación, WhatsApp, URL del sitio. |
+| `src/lib/seo.tsx` | Metadatos, canonical, Open Graph y JSON-LD (Organization, BreadcrumbList, FAQPage, Service). |
+| `src/app/api/contact/route.ts` | Envío real del formulario. |
 
-## Learn More
+## Tema
 
-To learn more about Next.js, take a look at the following resources:
+Color primario `#7D39EB` = `hsl(263 82% 57%)`. En `src/app/globals.css` el matiz y la saturación
+son variables (`--brand-h`, `--brand-s`) y los tonos `--brand-50 … --brand-900` solo cambian la
+luminosidad. Los tokens de shadcn derivan de esos tonos (incluye modo oscuro).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Configuración pendiente antes de publicar
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Formulario de contacto (obligatorio).** Copia `.env.example` a `.env.local` y configura **una** opción:
+   - **Resend:** `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` (el dominio remitente debe estar verificado en Resend).
+   - **Webhook** (Formspree, Make, n8n, Zapier…): `CONTACT_WEBHOOK_URL`; recibe un POST JSON con `name, email, company, interest, message, source, receivedAt`.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   Sin proveedor, la API responde 503 y el formulario muestra el mensaje de error: nunca simula un éxito.
+   Incluye validación en cliente y servidor, honeypot anti-spam, comprobación de origen y limitador de
+   frecuencia en memoria (para varias instancias, usa un almacén compartido o el límite de tu CDN).
+2. **`NEXT_PUBLIC_SITE_URL`**: dominio público (canonical, sitemap, Open Graph). Se asumió `https://vantriai.com`.
+3. **Política de privacidad:** solo existe la estructura. Falta el texto legal oficial; la página está en `noindex` y fuera del sitemap hasta entonces.
+4. **Decisiones editoriales abiertas** (ver "Nota editorial" en `docs/contenido-editorial.md`): validar palabras clave sin «en Ecuador», confirmar cómo comunicar la experiencia sectorial del equipo y la URL real de la política.
+5. **Imágenes:** el sitio usa ilustraciones SVG/CSS propias (sin fotos de stock). Si se agregan fotografías, usar `next/image` con texto alternativo descriptivo.
