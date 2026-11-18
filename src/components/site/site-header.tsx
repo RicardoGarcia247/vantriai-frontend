@@ -14,10 +14,12 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(href);
 }
 
+const linkBase =
+  "rounded-full px-4 py-2 text-sm font-bold text-ink-2 outline-none transition-colors duration-(--dur-micro) hover:bg-paper-3 hover:text-ink focus-visible:outline-2 focus-visible:outline-focus";
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
   // Cierra el menú móvil al navegar.
   const [prevPath, setPrevPath] = useState(pathname);
@@ -25,14 +27,6 @@ export function SiteHeader() {
     setPrevPath(pathname);
     setOpen(false);
   }
-
-  // Sombra discreta al desplazarse.
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   // Cierra con Escape.
   useEffect(() => {
@@ -43,16 +37,11 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 border-b bg-background/85 backdrop-blur-md transition-shadow",
-        scrolled ? "shadow-sm shadow-brand-900/5" : "border-transparent",
-      )}
-    >
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-6 px-5 sm:px-8">
+    <header className="sticky top-0 z-(--z-sticky-nav) border-b border-rule bg-paper">
+      <div className="container flex h-[4.5rem] items-center justify-between gap-(--space-lg)">
         <Logo />
 
-        <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Principal" className="hidden items-center gap-(--space-3xs) lg:flex">
           {mainNav.map((item) => {
             const active = isActive(pathname, item.href);
             return (
@@ -60,10 +49,7 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={cn(
-                  "rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50",
-                  active && "bg-secondary text-primary",
-                )}
+                className={cn(linkBase, active && "bg-accent-soft text-accent-deep")}
               >
                 {item.label}
               </Link>
@@ -71,12 +57,8 @@ export function SiteHeader() {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <CtaLink
-            href={headerCta.href}
-            arrow={false}
-            className="hidden h-10 sm:inline-flex"
-          >
+        <div className="flex items-center gap-(--space-xs)">
+          <CtaLink href={headerCta.href} className="hidden h-11 px-5 text-sm sm:inline-flex">
             {headerCta.label}
           </CtaLink>
           <button
@@ -85,30 +67,26 @@ export function SiteHeader() {
             aria-controls="menu-movil"
             aria-label={open ? "Cerrar menú" : "Abrir menú"}
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex size-10 items-center justify-center rounded-lg border bg-background text-foreground transition-colors outline-none hover:bg-secondary focus-visible:ring-3 focus-visible:ring-ring/50 lg:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-full border border-rule text-ink outline-none transition-colors duration-(--dur-micro) hover:bg-paper-3 focus-visible:outline-2 focus-visible:outline-focus lg:hidden"
           >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+            {open ? <X className="size-5" aria-hidden="true" /> : <Menu className="size-5" aria-hidden="true" />}
           </button>
         </div>
       </div>
 
-      <div
-        id="menu-movil"
-        hidden={!open}
-        className="border-t bg-background lg:hidden"
-      >
-        <nav aria-label="Principal móvil" className="mx-auto max-w-6xl px-5 py-4 sm:px-8">
-          <ul className="flex flex-col gap-1">
+      <div id="menu-movil" hidden={!open} className="border-t border-rule bg-paper lg:hidden">
+        <nav aria-label="Principal móvil" className="container py-(--space-md)">
+          <ul className="flex flex-col">
             {mainNav.map((item) => {
               const active = isActive(pathname, item.href);
               return (
-                <li key={item.href}>
+                <li key={item.href} className="border-b border-rule last:border-0">
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "block rounded-lg px-3 py-3 font-medium outline-none hover:bg-secondary focus-visible:ring-3 focus-visible:ring-ring/50",
-                      active && "bg-secondary text-primary",
+                      "block py-(--space-md) text-lg font-bold outline-none focus-visible:outline-2 focus-visible:outline-focus",
+                      active && "text-accent-deep",
                     )}
                   >
                     {item.label}
@@ -117,7 +95,7 @@ export function SiteHeader() {
               );
             })}
           </ul>
-          <CtaLink href={headerCta.href} arrow={false} className="mt-4 w-full sm:hidden">
+          <CtaLink href={headerCta.href} className="mt-(--space-md) w-full sm:hidden">
             {headerCta.label}
           </CtaLink>
         </nav>

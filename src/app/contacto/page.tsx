@@ -33,13 +33,13 @@ export default function ContactPage() {
           </div>
 
           <aside className="space-y-6">
-            <div className="rounded-2xl border bg-card p-6">
+            <div className="rounded-lg border bg-card p-6">
               <h2 className="mb-4 text-xl font-semibold tracking-tight">{prepare.title}</h2>
               <CheckList items={prepare.items} />
               <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{prepare.closing}</p>
             </div>
 
-            <div className="rounded-2xl border bg-card p-6">
+            <div className="rounded-lg border bg-card p-6">
               <h2 className="mb-4 text-xl font-semibold tracking-tight">{next.title}</h2>
               <ol className="space-y-4">
                 {next.items.map((item, i) => (
@@ -56,13 +56,13 @@ export default function ContactPage() {
               </ol>
             </div>
 
-            <div className="rounded-2xl border bg-brand-50 p-6 dark:bg-brand-900/20">
+            <div className="rounded-lg border bg-accent-soft p-6">
               <h2 className="mb-4 text-xl font-semibold tracking-tight">{channels.title}</h2>
               <ul className="space-y-3">
                 <li>
                   <a
                     href={`mailto:${site.email}`}
-                    className="inline-flex items-center gap-3 rounded-sm font-medium underline-offset-4 outline-none hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+                    className="inline-flex items-center gap-3 rounded-sm font-medium underline-offset-4 outline-none hover:text-primary hover:underline focus-visible:outline-2 focus-visible:outline-focus"
                   >
                     <Mail className="size-5 text-primary" aria-hidden="true" />
                     <span>
@@ -76,7 +76,7 @@ export default function ContactPage() {
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 rounded-sm font-medium underline-offset-4 outline-none hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+                    className="inline-flex items-center gap-3 rounded-sm font-medium underline-offset-4 outline-none hover:text-primary hover:underline focus-visible:outline-2 focus-visible:outline-focus"
                   >
                     <Phone className="size-5 text-primary" aria-hidden="true" />
                     <span>

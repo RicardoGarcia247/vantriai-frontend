@@ -4,11 +4,10 @@ export function Container({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  return (
-    <div className={cn("mx-auto w-full max-w-6xl px-5 sm:px-8", className)} {...props} />
-  );
+  return <div className={cn("container", className)} {...props} />;
 }
 
+/** Sección de página: el exterior pone el fondo y el espacio; el interior, el ancho. */
 export function Section({
   id,
   tone = "default",
@@ -17,6 +16,7 @@ export function Section({
   labelledBy,
 }: {
   id?: string;
+  /** muted: cambio de papel · brand: banda de tinta */
   tone?: "default" | "muted" | "brand";
   className?: string;
   children: React.ReactNode;
@@ -27,9 +27,9 @@ export function Section({
       id={id}
       aria-labelledby={labelledBy}
       className={cn(
-        "py-16 sm:py-24",
-        tone === "muted" && "bg-muted/60",
-        tone === "brand" && "bg-brand-50 dark:bg-brand-900/20",
+        "py-(--section-gap-s)",
+        tone === "muted" && "bg-paper-2",
+        tone === "brand" && "field",
         className,
       )}
     >
@@ -38,16 +38,15 @@ export function Section({
   );
 }
 
+/** Cabecera de sección: titular de sección y, si hace falta, una línea de apoyo. */
 export function SectionHeading({
   id,
-  eyebrow,
   title,
   lead,
   align = "left",
   className,
 }: {
   id?: string;
-  eyebrow?: string;
   title: string;
   lead?: string;
   align?: "left" | "center";
@@ -56,25 +55,13 @@ export function SectionHeading({
   return (
     <div
       className={cn(
-        "mb-10 max-w-3xl sm:mb-12",
+        "mb-(--space-2xl) max-w-3xl",
         align === "center" && "mx-auto text-center",
         className,
       )}
     >
-      {eyebrow && (
-        <p className="mb-3 text-xs font-semibold tracking-widest text-primary uppercase">
-          {eyebrow}
-        </p>
-      )}
-      <h2
-        id={id}
-        className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
-      >
-        {title}
-      </h2>
-      {lead && (
-        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{lead}</p>
-      )}
+      <h2 id={id}>{title}</h2>
+      {lead && <p className="lead mt-(--space-md) text-muted-foreground">{lead}</p>}
     </div>
   );
 }

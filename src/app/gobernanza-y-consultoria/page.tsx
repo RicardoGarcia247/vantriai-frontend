@@ -62,7 +62,7 @@ export default function GovernancePage() {
       <Section labelledBy="problemas-title">
         <SectionHeading id="problemas-title" title={problems.title} lead={problems.lead} />
         <ProblemGrid items={problems.items} />
-        <p className="mt-8 max-w-3xl rounded-2xl bg-secondary p-6 text-lg leading-relaxed text-secondary-foreground">
+        <p className="mt-8 max-w-3xl rounded-lg bg-secondary p-6 text-lg leading-relaxed text-secondary-foreground">
           {problems.closing}
         </p>
       </Section>
@@ -73,11 +73,11 @@ export default function GovernancePage() {
           {services.items.map((s) => (
             <article
               key={s.key}
-              className="rounded-2xl border bg-card p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5"
+              className="rounded-lg border bg-card p-7 transition-colors"
             >
               <span
                 aria-hidden="true"
-                className="mb-5 flex size-11 items-center justify-center rounded-xl bg-secondary text-primary [&_svg]:size-5"
+                className="mb-5 flex size-11 items-center justify-center rounded-lg bg-secondary text-primary [&_svg]:size-5"
               >
                 {serviceIcons[s.key]}
               </span>
@@ -95,7 +95,7 @@ export default function GovernancePage() {
       <Section id={deliverables.id} tone="brand" labelledBy="entregables-title">
         <SectionHeading
           id="entregables-title"
-          eyebrow="Entregables"
+         
           title={deliverables.title}
           lead={deliverables.lead}
         />

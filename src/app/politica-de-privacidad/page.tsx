@@ -21,7 +21,7 @@ export default function PrivacyPage() {
       />
       <Section labelledBy="contenido-pendiente">
         <div className="mx-auto max-w-3xl">
-          <div className="flex gap-4 rounded-2xl border border-dashed border-primary/40 bg-brand-50 p-6 dark:bg-brand-900/20">
+          <div className="flex gap-4 rounded-lg border border-dashed border-rule bg-accent-soft p-6">
             <FileWarning className="mt-0.5 size-6 shrink-0 text-primary" aria-hidden="true" />
             <div>
               <h2 id="contenido-pendiente" className="font-semibold">

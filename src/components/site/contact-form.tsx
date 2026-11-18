@@ -94,7 +94,7 @@ export function ContactForm() {
     return (
       <div
         role="status"
-        className="rounded-2xl border border-primary/30 bg-brand-50 p-8 text-center dark:bg-brand-900/20"
+        className="rounded-lg border border-rule bg-accent-soft p-8 text-center"
       >
         <CheckCircle2 className="mx-auto mb-4 size-10 text-primary" aria-hidden="true" />
         <p className="text-lg font-medium">{copy.messages.success}</p>
@@ -107,7 +107,7 @@ export function ContactForm() {
       ref={formRef}
       onSubmit={onSubmit}
       noValidate
-      className="space-y-5 rounded-2xl border bg-card p-6 shadow-sm sm:p-8"
+      className="space-y-5 rounded-lg border bg-card p-6 sm:p-8"
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
@@ -181,7 +181,7 @@ export function ContactForm() {
             onChange={(e) => update("interest", e.target.value)}
             onBlur={() => validateField("interest")}
             className={cn(
-              "h-11 w-full rounded-lg border border-input bg-transparent px-2.5 text-base outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30",
+              "h-11 w-full rounded-lg border border-input bg-transparent px-2.5 text-base outline-none transition-colors focus-visible:border-ring focus-visible:outline-2 focus-visible:outline-focus aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm",
               !values.interest && "text-muted-foreground",
             )}
             {...aria("interest")}
@@ -248,7 +248,7 @@ export function ContactForm() {
         <Button
           type="submit"
           disabled={status === "sending"}
-          className="h-11 gap-2 rounded-xl px-6 text-sm shadow-sm shadow-primary/25 hover:bg-brand-600"
+          className="h-11 gap-2 rounded-lg px-6 text-sm hover:bg-brand-600"
         >
           {status === "sending" ? (
             <Loader2 className="animate-spin" aria-hidden="true" />

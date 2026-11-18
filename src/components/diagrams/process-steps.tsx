@@ -1,28 +1,18 @@
-/** Proceso secuencial numerado (metodología de trabajo). */
+/** Proceso secuencial numerado (metodología de trabajo): una lista ordenada, el número lo pone el contador. */
 export function ProcessSteps({
   steps,
 }: {
   steps: { title: string; text: string }[];
 }) {
   return (
-    <ol className="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      <span
-        aria-hidden="true"
-        className="absolute top-6 right-[12.5%] left-[12.5%] hidden h-px border-t-2 border-dashed border-brand-300 lg:block"
-      />
-      {steps.map((step, i) => (
+    <ol className="grid gap-x-(--gap-columns) gap-y-(--space-xl) [counter-reset:step] sm:grid-cols-2 lg:grid-cols-4">
+      {steps.map((step) => (
         <li
           key={step.title}
-          className="relative rounded-2xl border bg-card p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md hover:shadow-primary/5"
+          className="border-t border-rule pt-(--space-lg) [counter-increment:step] before:mb-(--space-lg) before:block before:text-(length:--text-display-s) before:leading-none before:font-bold before:text-accent-soft before:tabular-nums before:content-[counter(step)]"
         >
-          <span
-            aria-hidden="true"
-            className="relative z-10 mb-5 flex size-12 items-center justify-center rounded-2xl bg-primary text-lg font-semibold text-primary-foreground shadow-md shadow-primary/25"
-          >
-            {i + 1}
-          </span>
-          <h3 className="mb-2 text-lg font-semibold">{step.title}</h3>
-          <p className="leading-relaxed text-muted-foreground">{step.text}</p>
+          <h3 className="mb-(--space-sm) text-(length:--text-title)">{step.title}</h3>
+          <p className="text-muted-foreground">{step.text}</p>
         </li>
       ))}
     </ol>

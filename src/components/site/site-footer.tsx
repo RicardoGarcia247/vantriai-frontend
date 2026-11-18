@@ -1,25 +1,21 @@
-import { Mail, Phone } from "lucide-react";
 import Link from "next/link";
 
-import { Container } from "@/components/site/section";
 import { Logo } from "@/components/site/logo";
 import { footerNav, site } from "@/lib/site";
 
 const linkClass =
-  "rounded-sm text-sm text-muted-foreground underline-offset-4 outline-none transition-colors hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50";
+  "rounded-sm underline-offset-4 outline-none transition-colors duration-(--dur-micro) hover:text-accent-deep hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t bg-muted/50">
-      <Container className="py-12">
-        <div className="grid gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
-          <div className="space-y-4">
-            <Logo />
-            <p className="text-sm font-medium">VantriAI · Consultoría y tecnología</p>
-          </div>
+    <footer className="border-t border-rule bg-paper-2 py-(--space-3xl)">
+      <div className="container">
+        <Logo size="lg" />
+        <p className="mt-(--space-md) text-muted-foreground">VantriAI · Consultoría y tecnología</p>
 
+        <div className="mt-(--space-2xl) grid gap-(--space-xl) border-t border-rule pt-(--space-xl) md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
           <nav aria-label="Pie de página">
-            <ul className="grid gap-2.5">
+            <ul className="grid gap-x-(--gap-columns) gap-y-(--space-sm) sm:grid-cols-2 lg:grid-cols-3">
               {footerNav.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className={linkClass}>
@@ -30,22 +26,20 @@ export function SiteFooter() {
             </ul>
           </nav>
 
-          <address className="grid content-start gap-2.5 not-italic">
-            <a href={`mailto:${site.email}`} className={`${linkClass} inline-flex items-center gap-2`}>
-              <Mail className="size-4" aria-hidden="true" />
+          <address className="grid content-start gap-(--space-sm) not-italic">
+            <a href={`mailto:${site.email}`} className={linkClass}>
               {site.email}
             </a>
-            <a href={site.phoneHref} className={`${linkClass} inline-flex items-center gap-2`}>
-              <Phone className="size-4" aria-hidden="true" />
+            <a href={site.phoneHref} className={linkClass}>
               {site.phone}
             </a>
           </address>
         </div>
 
-        <p className="mt-10 border-t pt-6 text-sm text-muted-foreground">
+        <p className="mt-(--space-2xl) text-sm text-muted-foreground">
           © 2026 VantriAI. Todos los derechos reservados.
         </p>
-      </Container>
+      </div>
     </footer>
   );
 }

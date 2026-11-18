@@ -18,74 +18,88 @@ const pillarIcons = { governance: Compass, technology: Cpu } as const;
 
 export default function HomePage() {
   const { hero, pillars, problems, complement, method, sectors, audience, faqs, finalCta } = home;
+  const [heroIntro, ...restIntro] = hero.intro;
 
   return (
     <>
       <PageHero
         size="large"
         h1={hero.h1}
-        intro={hero.intro}
+        intro={[heroIntro]}
         primary={hero.primary}
         secondary={hero.secondary}
         art={<HomeArt />}
       />
 
+      {/* Los dos focos: la cabecera a la izquierda, los dos focos en columnas separadas por un filete. */}
       <Section labelledBy="focos-title">
-        <SectionHeading id="focos-title" eyebrow="Dos focos, el mismo peso" title={pillars.title} />
-        <div className="grid gap-6 lg:grid-cols-2">
-          {pillars.items.map((p) => {
-            const Icon = pillarIcons[p.key as keyof typeof pillarIcons];
-            return (
-              <article
-                key={p.key}
-                className="group flex flex-col rounded-3xl border bg-card p-8 transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10"
-              >
-                <span
-                  aria-hidden="true"
-                  className="mb-6 flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-md shadow-primary/25"
-                >
-                  <Icon className="size-6" />
-                </span>
-                <h3 className="text-2xl font-semibold tracking-tight">{p.title}</h3>
-                <p className="mt-3 leading-relaxed text-muted-foreground">{p.text}</p>
-                <CheckList items={p.list} className="mt-6 flex-1" />
-                <div className="mt-8">
-                  <CtaLink href={p.cta.href} variant="secondary" arrow className="w-full sm:w-auto">
-                    {p.cta.label}
-                  </CtaLink>
-                </div>
-              </article>
-            );
-          })}
+        <div className="grid gap-(--space-xl) lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-(--gap-columns)">
+          <div>
+            <SectionHeading id="focos-title" title={pillars.title} className="mb-(--space-lg)" />
+            {restIntro.map((p) => (
+              <p key={p} className="text-muted-foreground">
+                {p}
+              </p>
+            ))}
+          </div>
+          <div className="grid gap-(--space-2xl) md:grid-cols-2 md:gap-(--gap-columns)">
+            {pillars.items.map((p) => {
+              const Icon = pillarIcons[p.key as keyof typeof pillarIcons];
+              return (
+                <article key={p.key} className="flex flex-col border-t border-ink pt-(--space-lg)">
+                  <Icon aria-hidden="true" className="mb-(--space-md) size-7 text-accent" />
+                  <h3 className="text-(length:--text-2xl)">{p.title}</h3>
+                  <p className="mt-(--space-md) text-muted-foreground">{p.text}</p>
+                  <CheckList items={p.list} className="mt-(--space-lg) flex-1" />
+                  <div className="mt-(--space-lg)">
+                    <CtaLink href={p.cta.href} variant="link">
+                      {p.cta.label}
+                    </CtaLink>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         </div>
       </Section>
 
+      {/* Problemas: filas numeradas junto a la cabecera. */}
       <Section tone="muted" labelledBy="problemas-title">
-        <SectionHeading id="problemas-title" title={problems.title} lead={problems.lead} />
-        <ProblemGrid items={problems.items} />
-        <p className="mt-8 max-w-3xl text-lg leading-relaxed">{problems.closing}</p>
+        <div className="grid gap-(--space-xl) lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-(--gap-columns)">
+          <div className="lg:sticky lg:top-(--space-3xl) lg:self-start">
+            <SectionHeading id="problemas-title" title={problems.title} lead={problems.lead} className="mb-0" />
+          </div>
+          <div>
+            <ProblemGrid items={problems.items} columns={2} />
+            <p className="lead mt-(--space-xl) max-w-none font-bold">{problems.closing}</p>
+          </div>
+        </div>
       </Section>
 
+      {/* El ejemplo de los dos focos trabajando juntos y las tres formas de empezar. */}
       <Section labelledBy="complemento-title">
         <SectionHeading id="complemento-title" title={complement.title} lead={complement.intro} />
-        <p className="mb-6 font-medium">{complement.example}</p>
+        <p className="mb-(--space-lg) max-w-none text-(length:--text-lg) font-bold">{complement.example}</p>
         <ComplementDiagram
           governance={complement.governance}
           technology={complement.technology}
           result={complement.result}
         />
 
-        <div className="mt-16">
-          <h3 className="mb-6 text-2xl font-semibold tracking-tight">{complement.startTitle}</h3>
-          <ul className="grid gap-4 md:grid-cols-3">
+        <div className="mt-(--space-3xl)">
+          <h3 className="mb-(--space-xl) text-(length:--text-2xl)">{complement.startTitle}</h3>
+          <ul className="grid md:grid-cols-3">
             {complement.start.map((s) => (
-              <li key={s.label} className="rounded-2xl border bg-card p-6">
-                <p className="font-semibold text-primary">{s.label}</p>
-                <p className="mt-2 leading-relaxed text-muted-foreground">{s.text}</p>
+              <li
+                key={s.label}
+                className="border-t border-ink py-(--space-lg) md:border-l md:border-t-0 md:px-(--space-lg) md:first:border-l-0 md:first:pl-0"
+              >
+                <p className="max-w-none text-(length:--text-title) font-bold">{s.label}</p>
+                <p className="mt-(--space-sm) text-muted-foreground">{s.text}</p>
               </li>
             ))}
           </ul>
-          <div className="mt-8">
+          <div className="mt-(--space-xl)">
             <CtaLink href={complement.cta.href} variant="link">
               {complement.cta.label}
             </CtaLink>
@@ -94,35 +108,37 @@ export default function HomePage() {
       </Section>
 
       <Section id={method.id} tone="brand" labelledBy="metodo-title">
-        <SectionHeading id="metodo-title" eyebrow="Metodología en cuatro etapas" title={method.title} />
+        <SectionHeading id="metodo-title" title={method.title} />
         <ProcessSteps steps={method.steps} />
       </Section>
 
+      {/* Sectores: la lista a la izquierda como filas, la cabecera y la acción a la derecha. */}
       <Section labelledBy="sectores-title">
-        <div className="grid items-center gap-8 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
-          <div>
-            <SectionHeading id="sectores-title" title={sectors.title} lead={sectors.text} className="mb-6 sm:mb-8" />
-            <CtaLink href={sectors.cta.href}>{sectors.cta.label}</CtaLink>
-          </div>
-          <ul className="flex flex-wrap gap-3">
+        <div className="grid items-start gap-(--space-xl) lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-(--gap-columns)">
+          <ul className="order-2 border-t border-ink lg:order-1">
             {sectors.chips.map((c) => (
               <li
                 key={c}
-                className="rounded-full border border-brand-200 bg-brand-50 px-5 py-2.5 font-medium text-brand-800 dark:bg-brand-900/20 dark:text-brand-100"
+                className="border-b border-rule py-(--space-md) text-(length:--text-xl) font-bold"
               >
                 {c}
               </li>
             ))}
           </ul>
+          <div className="order-1 lg:order-2">
+            <SectionHeading id="sectores-title" title={sectors.title} lead={sectors.text} className="mb-(--space-lg)" />
+            <CtaLink href={sectors.cta.href}>{sectors.cta.label}</CtaLink>
+          </div>
         </div>
       </Section>
 
-      <Section tone="muted" labelledBy="publico-title" className="py-14 sm:py-16">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 id="publico-title" className="text-2xl font-semibold tracking-tight sm:text-3xl">
+      {/* Público: una afirmación a tamaño de sección. */}
+      <Section tone="muted" labelledBy="publico-title">
+        <div className="grid gap-(--space-lg) lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:items-end lg:gap-(--gap-columns)">
+          <h2 id="publico-title" className="max-w-[24ch] text-(length:--text-display-s)">
             {audience.title}
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{audience.text}</p>
+          <p className="text-muted-foreground">{audience.text}</p>
         </div>
       </Section>
 

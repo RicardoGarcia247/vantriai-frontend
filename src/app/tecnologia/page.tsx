@@ -50,7 +50,7 @@ export default function TechnologyPage() {
       <Section labelledBy="problemas-title">
         <SectionHeading id="problemas-title" title={problems.title} />
         <ProblemGrid items={problems.items} columns={2} />
-        <p className="mt-8 max-w-3xl rounded-2xl bg-secondary p-6 text-lg leading-relaxed text-secondary-foreground">
+        <p className="mt-8 max-w-3xl rounded-lg bg-secondary p-6 text-lg leading-relaxed text-secondary-foreground">
           {problems.closing}
         </p>
       </Section>
@@ -62,16 +62,16 @@ export default function TechnologyPage() {
             <article
               key={s.key}
               className={cn(
-                "flex flex-col rounded-2xl border bg-card p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5",
-                s.featured && "border-primary/30 ring-1 ring-primary/10",
+                "flex flex-col rounded-lg border bg-card p-7 transition-colors",
+                s.featured && "border-rule ring-1 ring-primary/10",
               )}
             >
               <span
                 aria-hidden="true"
                 className={cn(
-                  "mb-5 flex size-11 items-center justify-center rounded-xl [&_svg]:size-5",
+                  "mb-5 flex size-11 items-center justify-center rounded-lg [&_svg]:size-5",
                   s.featured
-                    ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
+                    ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-primary",
                 )}
               >
@@ -96,14 +96,14 @@ export default function TechnologyPage() {
           <div>
             <SectionHeading
               id="entregables-title"
-              eyebrow="Entregables"
+             
               title={deliverables.title}
               lead={deliverables.lead}
               className="mb-6 sm:mb-8"
             />
             <CheckList items={deliverables.items} tone="onTint" />
           </div>
-          <div className="self-center rounded-3xl border bg-card p-8 shadow-sm">
+          <div className="self-center rounded-lg border bg-card p-8">
             <h2 className="text-2xl font-semibold tracking-tight">{rollout.title}</h2>
             <p className="mt-4 leading-relaxed text-muted-foreground">{rollout.text}</p>
           </div>

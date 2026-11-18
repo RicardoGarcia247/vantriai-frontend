@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowDown, Compass, Cpu } from "lucide-react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 
 type Props = {
   governance: string;
@@ -9,50 +9,48 @@ type Props = {
 const govChips = ["Quién aprueba", "Bajo qué reglas", "Con qué documentos", "En qué tiempos"];
 const techChips = ["Formulario de solicitud", "Flujo de aprobación", "Tablero de seguimiento"];
 
-/** Ejemplo visual: aprobación de un contrato o de una compra (diseño → herramienta). */
+function Chips({ items }: { items: string[] }) {
+  return (
+    <ul aria-hidden="true" className="mt-(--space-lg) border-t border-rule">
+      {items.map((c) => (
+        <li key={c} className="border-b border-rule py-(--space-xs) text-sm font-bold">
+          {c}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Ejemplo: aprobación de un contrato o de una compra, del diseño a la herramienta. */
 export function ComplementDiagram({ governance, technology, result }: Props) {
   return (
-    <figure className="rounded-3xl border bg-card p-5 shadow-sm sm:p-8">
-      <figcaption className="mb-6 text-sm font-semibold tracking-widest text-muted-foreground uppercase">
+    <figure>
+      <figcaption className="mb-(--space-md) font-bold text-muted-foreground">
         Aprobación de un contrato o de una compra
       </figcaption>
-      <div className="grid items-stretch gap-4 lg:grid-cols-[1fr_auto_1fr]">
-        <div className="rounded-2xl border border-brand-200 bg-brand-50 p-6 dark:bg-brand-900/20">
-          <span className="mb-4 flex size-11 items-center justify-center rounded-xl bg-card text-primary shadow-sm">
-            <Compass className="size-5" aria-hidden="true" />
-          </span>
-          <p className="leading-relaxed">{governance}</p>
-          <ul aria-hidden="true" className="mt-5 flex flex-wrap gap-2">
-            {govChips.map((c) => (
-              <li key={c} className="rounded-full bg-card px-3 py-1 text-xs font-medium text-brand-700 dark:text-brand-200">
-                {c}
-              </li>
-            ))}
-          </ul>
+      <div className="grid items-stretch gap-(--space-md) lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+        <div className="rounded-(--radius-card) bg-paper-3 p-(--space-lg)">
+          <p className="max-w-none text-(length:--text-lg) leading-snug">{governance}</p>
+          <Chips items={govChips} />
         </div>
 
-        <div aria-hidden="true" className="flex items-center justify-center text-primary">
+        <div aria-hidden="true" className="flex items-center justify-center text-accent">
           <ArrowRight className="hidden size-7 lg:block" />
           <ArrowDown className="size-7 lg:hidden" />
         </div>
 
-        <div className="rounded-2xl border border-primary/30 bg-primary/5 p-6">
-          <span className="mb-4 flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm shadow-primary/30">
-            <Cpu className="size-5" aria-hidden="true" />
-          </span>
-          <p className="leading-relaxed">{technology}</p>
-          <ul aria-hidden="true" className="mt-5 flex flex-wrap gap-2">
+        <div className="rounded-(--radius-card) bg-accent p-(--space-lg) text-accent-ink">
+          <p className="max-w-none text-(length:--text-lg) leading-snug">{technology}</p>
+          <ul aria-hidden="true" className="mt-(--space-lg) border-t border-accent-ink/30">
             {techChips.map((c) => (
-              <li key={c} className="rounded-full bg-card px-3 py-1 text-xs font-medium text-primary">
+              <li key={c} className="border-b border-accent-ink/30 py-(--space-xs) text-sm font-bold">
                 {c}
               </li>
             ))}
           </ul>
         </div>
       </div>
-      <p className="mt-6 rounded-xl bg-secondary px-5 py-4 text-center font-medium text-secondary-foreground">
-        {result}
-      </p>
+      <p className="mt-(--space-lg) max-w-none text-(length:--text-xl) font-bold">{result}</p>
     </figure>
   );
 }

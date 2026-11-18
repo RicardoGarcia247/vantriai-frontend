@@ -4,6 +4,10 @@ export const alt = "VantriAI · Consultoría y tecnología";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+// El motor de imágenes no lee variables CSS: el violeta de marca vive aquí, igual que --color-accent en tokens.css.
+const brand = "#7D39EB";
+const onBrand = "#FFFFFF";
+
 export default function OpengraphImage() {
   return new ImageResponse(
     (
@@ -15,22 +19,22 @@ export default function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "center",
           padding: 90,
-          background: "linear-gradient(135deg, #5B1FC7 0%, #7D39EB 100%)",
-          color: "white",
+          background: brand,
+          color: onBrand,
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <svg width="96" height="96" viewBox="0 0 64 64">
-            <rect width="64" height="64" rx="16" fill="white" />
+          <svg aria-hidden="true" width="96" height="96" viewBox="0 0 64 64">
+            <rect width="64" height="64" rx="16" fill={onBrand} />
             <path
               d="M16 18l16 28 16-28"
               fill="none"
-              stroke="#7D39EB"
+              stroke={brand}
               strokeWidth="6"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
-            <circle cx="32" cy="18" r="4.5" fill="#7D39EB" />
+            <circle cx="32" cy="18" r="4.5" fill={brand} />
           </svg>
           <div style={{ fontSize: 84, fontWeight: 700 }}>VantriAI</div>
         </div>

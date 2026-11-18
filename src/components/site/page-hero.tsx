@@ -12,7 +12,6 @@ export function PageHero({
   secondary,
   breadcrumbs,
   art,
-  eyebrow,
   size = "default",
 }: {
   h1: string;
@@ -21,47 +20,40 @@ export function PageHero({
   secondary?: Cta;
   breadcrumbs?: Crumb[];
   art?: React.ReactNode;
-  eyebrow?: string;
   size?: "default" | "large";
 }) {
   return (
-    <section className="relative isolate overflow-hidden border-b">
-      <div aria-hidden="true" className="bg-grid absolute inset-0 -z-10" />
-      <div
-        aria-hidden="true"
-        className="absolute -top-32 left-1/2 -z-10 h-80 w-[60rem] -translate-x-1/2 rounded-full bg-brand-300/30 blur-3xl dark:bg-brand-600/20"
-      />
-      <Container className="py-12 sm:py-16 lg:py-20">
+    <section className="border-b border-rule">
+      <Container
+        className={cn(
+          "pt-(--space-xl) pb-(--space-2xl)",
+          size === "large" && "min-h-[min(46rem,calc(100dvh-4.5rem))] pt-(--space-xl) pb-(--space-2xl)",
+        )}
+      >
         {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
         <div
           className={cn(
-            "grid items-center gap-12",
-            art && "lg:grid-cols-[1.15fr_0.85fr] lg:gap-10",
+            "grid items-center gap-(--space-2xl)",
+            art && "lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-(--space-2xl)",
+            size === "large" && "min-h-[inherit]",
           )}
         >
-          <div className="animate-fade-up">
-            {eyebrow && (
-              <p className="mb-4 text-xs font-semibold tracking-widest text-primary uppercase">
-                {eyebrow}
-              </p>
-            )}
+          <div className="settle">
             <h1
               className={cn(
-                "font-semibold tracking-tight text-balance",
-                size === "large"
-                  ? "text-4xl leading-[1.1] sm:text-5xl lg:text-[3.4rem]"
-                  : "text-3xl leading-tight sm:text-4xl lg:text-5xl",
+                "max-w-[30ch] text-(length:--text-display-s)",
+                size === "default" && "text-(length:--text-section)",
               )}
             >
               {h1}
             </h1>
-            <div className="mt-6 max-w-2xl space-y-4 text-lg leading-relaxed text-muted-foreground">
+            <div className="lead mt-(--space-lg) max-w-[56ch] space-y-(--space-md) text-muted-foreground">
               {intro.map((p) => (
                 <p key={p}>{p}</p>
               ))}
             </div>
             {(primary || secondary) && (
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-(--space-xl) flex flex-col gap-(--space-sm) sm:flex-row">
                 {primary && <CtaLink href={primary.href}>{primary.label}</CtaLink>}
                 {secondary && (
                   <CtaLink
@@ -76,10 +68,7 @@ export function PageHero({
             )}
           </div>
           {art && (
-            <div
-              aria-hidden="true"
-              className="animate-fade-up mx-auto w-full max-w-md [animation-delay:150ms] lg:max-w-none"
-            >
+            <div aria-hidden="true" className="settle settle-2 mx-auto w-full max-w-lg lg:max-w-none">
               {art}
             </div>
           )}

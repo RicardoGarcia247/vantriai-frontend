@@ -2,29 +2,20 @@ import { Check } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-/** Lista con marcas de verificación. */
+/** Lista con filas separadas por filetes y una marca de verificación en línea. */
 export function CheckList({
   items,
   className,
-  tone = "default",
 }: {
   items: string[];
   className?: string;
   tone?: "default" | "onTint";
 }) {
   return (
-    <ul className={cn("space-y-3", className)}>
+    <ul className={cn("border-t border-rule", className)}>
       {items.map((item) => (
-        <li key={item} className="flex gap-3 leading-relaxed">
-          <span
-            aria-hidden="true"
-            className={cn(
-              "mt-1 flex size-5 shrink-0 items-center justify-center rounded-full",
-              tone === "onTint" ? "bg-card text-primary" : "bg-secondary text-primary",
-            )}
-          >
-            <Check className="size-3" strokeWidth={3} />
-          </span>
+        <li key={item} className="flex gap-(--space-sm) border-b border-rule py-(--space-sm) leading-snug">
+          <Check aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-accent" strokeWidth={2.5} />
           <span>{item}</span>
         </li>
       ))}
@@ -32,7 +23,7 @@ export function CheckList({
   );
 }
 
-/** Tarjetas numeradas para problemas habituales. */
+/** Lista numerada de problemas habituales: una fila por problema, el número lo pone la lista. */
 export function ProblemGrid({
   items,
   columns = 3,
@@ -41,31 +32,25 @@ export function ProblemGrid({
   columns?: 2 | 3;
 }) {
   return (
-    <ul
+    <ol
       className={cn(
-        "grid gap-4 sm:grid-cols-2",
-        columns === 3 && "lg:grid-cols-3",
+        "grid gap-x-(--gap-columns) border-t border-rule [counter-reset:problem] md:grid-cols-2",
+        columns === 3 && "lg:grid-cols-1",
       )}
     >
-      {items.map((item, i) => (
+      {items.map((item) => (
         <li
           key={item}
-          className="group relative rounded-2xl border bg-card p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md hover:shadow-primary/5"
+          className="flex gap-(--space-md) border-b border-rule py-(--space-lg) text-(length:--text-md) leading-snug [counter-increment:problem] before:min-w-8 before:font-bold before:text-accent before:tabular-nums before:content-[counter(problem)]"
         >
-          <span
-            aria-hidden="true"
-            className="mb-4 flex size-9 items-center justify-center rounded-lg bg-secondary text-sm font-semibold text-primary"
-          >
-            {String(i + 1).padStart(2, "0")}
-          </span>
-          <p className="leading-relaxed">{item}</p>
+          <p className="max-w-none">{item}</p>
         </li>
       ))}
-    </ul>
+    </ol>
   );
 }
 
-/** Tarjetas de entregables ("Qué puedes recibir"). */
+/** Entregables ("Qué puedes recibir"): columnas con filete superior y un icono en línea. */
 export function DeliverableGrid({
   items,
   icons,
@@ -74,19 +59,14 @@ export function DeliverableGrid({
   icons?: React.ReactNode[];
 }) {
   return (
-    <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <ul className="grid gap-x-(--gap-columns) sm:grid-cols-2 lg:grid-cols-3">
       {items.map((item, i) => (
         <li
           key={item}
-          className="flex gap-4 rounded-2xl border bg-card p-5 transition-all duration-200 hover:border-primary/40 hover:shadow-md hover:shadow-primary/5"
+          className="flex items-start gap-(--space-sm) border-t border-rule py-(--space-lg) text-accent [&_svg]:mt-0.5 [&_svg]:size-5 [&_svg]:shrink-0"
         >
-          <span
-            aria-hidden="true"
-            className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground [&_svg]:size-5"
-          >
-            {icons?.[i] ?? <Check strokeWidth={3} />}
-          </span>
-          <p className="self-center leading-snug font-medium">{item}</p>
+          {icons?.[i] ?? <Check aria-hidden="true" strokeWidth={2.5} />}
+          <p className="max-w-none font-bold leading-snug text-ink">{item}</p>
         </li>
       ))}
     </ul>

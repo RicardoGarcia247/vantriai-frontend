@@ -1,8 +1,8 @@
-import { Container } from "@/components/site/section";
 import { CtaLink } from "@/components/site/cta-link";
+import { Container } from "@/components/site/section";
 import type { Cta } from "@/content/types";
 
-/** Bloque de llamada a la acción: título, texto y un botón principal. */
+/** Banda de cierre: el titular, una línea y la acción de la página. */
 export function CtaBand({
   title,
   text,
@@ -15,29 +15,13 @@ export function CtaBand({
   id?: string;
 }) {
   return (
-    <section id={id} className="py-16 sm:py-20">
-      <Container>
-        <div className="relative isolate overflow-hidden rounded-3xl bg-brand-700 px-6 py-14 text-center text-white sm:px-14 sm:py-16 dark:bg-brand-800">
-          <svg
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 -z-10 size-full opacity-20"
-          >
-            <defs>
-              <pattern id="cta-dots" width="28" height="28" patternUnits="userSpaceOnUse">
-                <circle cx="2" cy="2" r="1.5" fill="white" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#cta-dots)" />
-          </svg>
-          <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            {title}
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-white/85">{text}</p>
-          <div className="mt-8 flex justify-center">
-            <CtaLink
-              href={cta.href}
-              className="bg-white text-brand-800 shadow-none hover:bg-brand-100 active:bg-brand-200 focus-visible:ring-white/60"
-            >
+    <section id={id} className="bg-accent py-(--section-gap-s) text-accent-ink">
+      <Container className="grid items-end gap-(--space-xl) lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-(--gap-columns)">
+        <h2 className="max-w-[18ch] text-(length:--text-display-s)">{title}</h2>
+        <div className="grid gap-(--space-lg)">
+          <p className="lead max-w-[40ch]">{text}</p>
+          <div>
+            <CtaLink href={cta.href} variant="onField" className="bg-accent-ink text-accent-deep hover:bg-brand-100">
               {cta.label}
             </CtaLink>
           </div>

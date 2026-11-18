@@ -52,7 +52,7 @@ export default function AutomationPage() {
             {method.tools.map((t, i) => (
               <li
                 key={t}
-                className="flex flex-col gap-3 rounded-2xl border bg-card p-5 text-sm font-medium [&_svg]:size-6 [&_svg]:text-primary"
+                className="flex flex-col gap-3 rounded-lg border bg-card p-5 text-sm font-medium [&_svg]:size-6 [&_svg]:text-primary"
               >
                 {toolIcons[i]}
                 {t}
@@ -68,7 +68,7 @@ export default function AutomationPage() {
           {automatable.items.map((item) => (
             <li
               key={item}
-              className="rounded-xl border bg-card px-5 py-4 font-medium transition-colors hover:border-primary/40"
+              className="rounded-lg border bg-card px-5 py-4 font-medium transition-colors"
             >
               {item}
             </li>
@@ -79,7 +79,7 @@ export default function AutomationPage() {
       <Section tone="brand" labelledBy="ejemplo-title">
         <SectionHeading
           id="ejemplo-title"
-          eyebrow="Ejemplo visual"
+         
           title={example.title}
           lead={example.text}
         />
@@ -87,7 +87,7 @@ export default function AutomationPage() {
       </Section>
 
       <Section labelledBy="entregables-title">
-        <SectionHeading id="entregables-title" eyebrow="Entregables" title={deliverables.title} />
+        <SectionHeading id="entregables-title" title={deliverables.title} />
         <DeliverableGrid items={deliverables.items} />
       </Section>
 

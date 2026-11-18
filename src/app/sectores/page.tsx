@@ -23,7 +23,7 @@ export default function SectorsPage() {
 
       <Section labelledBy="experiencia-title">
         <SectionHeading id="experiencia-title" title={experience.title} />
-        <p className="-mt-6 mb-10 flex max-w-3xl items-start gap-3 rounded-2xl bg-secondary p-5 text-secondary-foreground">
+        <p className="-mt-6 mb-10 flex max-w-3xl items-start gap-3 rounded-lg bg-secondary p-5 text-secondary-foreground">
           <Users className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
           {experience.note}
         </p>

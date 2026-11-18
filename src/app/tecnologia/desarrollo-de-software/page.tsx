@@ -49,7 +49,7 @@ export default function SoftwarePage() {
               ))}
             </div>
           </div>
-          <div className="self-center rounded-3xl border bg-card p-6">
+          <div className="self-center rounded-lg border bg-card p-6">
             <p className="mb-4 flex items-center gap-2 text-sm font-semibold text-muted-foreground">
               <LayoutGrid className="size-4 text-primary" aria-hidden="true" />
               Se define junto al equipo que usará la solución
@@ -65,11 +65,11 @@ export default function SoftwarePage() {
           {examples.items.map((item, i) => (
             <li
               key={item}
-              className="rounded-2xl border bg-card p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5"
+              className="rounded-lg border bg-card p-7 transition-colors"
             >
               <span
                 aria-hidden="true"
-                className="mb-5 flex size-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md shadow-primary/25 [&_svg]:size-6"
+                className="mb-5 flex size-12 items-center justify-center rounded-lg bg-primary text-primary-foreground [&_svg]:size-6"
               >
                 {exampleIcons[i]}
               </span>
@@ -83,7 +83,7 @@ export default function SoftwarePage() {
       </Section>
 
       <Section tone="brand" labelledBy="entregables-title">
-        <SectionHeading id="entregables-title" eyebrow="Entregables" title={deliverables.title} />
+        <SectionHeading id="entregables-title" title={deliverables.title} />
         <DeliverableGrid items={deliverables.items} />
       </Section>
 

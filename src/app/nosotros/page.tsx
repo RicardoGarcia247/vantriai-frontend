@@ -33,7 +33,7 @@ export default function AboutPage() {
           {approach.items.map((item, i) => (
             <li
               key={item.lead}
-              className="flex gap-4 rounded-2xl border bg-card p-6 transition-all duration-200 hover:border-primary/40 hover:shadow-md hover:shadow-primary/5"
+              className="flex gap-4 rounded-lg border bg-card p-6 transition-colors"
             >
               <span
                 aria-hidden="true"
@@ -52,8 +52,8 @@ export default function AboutPage() {
       <Section labelledBy="focos-title">
         <SectionHeading id="focos-title" title={pillars.title} />
         <div className="grid gap-6 md:grid-cols-2">
-          <article className="rounded-3xl border bg-card p-8">
-            <span aria-hidden="true" className="mb-5 flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-md shadow-primary/25">
+          <article className="rounded-lg border bg-card p-8">
+            <span aria-hidden="true" className="mb-5 flex size-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Compass className="size-6" />
             </span>
             <p className="leading-relaxed">{pillars.governance}</p>
@@ -63,8 +63,8 @@ export default function AboutPage() {
               </CtaLink>
             </div>
           </article>
-          <article className="rounded-3xl border bg-card p-8">
-            <span aria-hidden="true" className="mb-5 flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-md shadow-primary/25">
+          <article className="rounded-lg border bg-card p-8">
+            <span aria-hidden="true" className="mb-5 flex size-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Cpu className="size-6" />
             </span>
             <p className="leading-relaxed">{pillars.technology}</p>
@@ -88,7 +88,7 @@ export default function AboutPage() {
           </div>
           <ul aria-hidden="true" className="flex flex-wrap gap-3">
             {experience.chips.map((c) => (
-              <li key={c} className="rounded-full border border-brand-200 bg-card px-5 py-2.5 font-medium text-brand-800 dark:text-brand-100">
+              <li key={c} className="rounded-full border border-brand-200 bg-card px-5 py-2.5 font-medium text-brand-800">
                 {c}
               </li>
             ))}
