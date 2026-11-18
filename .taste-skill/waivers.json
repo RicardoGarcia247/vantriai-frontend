@@ -1,0 +1,5 @@
+[
+  { "check": "phone-number", "target": "+593 98 788 2435", "reason": "Es el teléfono real de VantriAI, publicado por el cliente en su sitio y en el contacto; se conserva." },
+  { "check": "hero-lines", "target": "section.hero h1", "reason": "El titular final tiene 37 caracteres y ocupa 3 líneas; la prueba lo rellena hasta 45 de forma artificial." },
+  { "check": "copy-headings", "target": "h2#focos-h", "reason": "Los títulos de sección son texto del cliente y se conservan tal cual; nombran gobernanza, tecnología y método de VantriAI." }
+]

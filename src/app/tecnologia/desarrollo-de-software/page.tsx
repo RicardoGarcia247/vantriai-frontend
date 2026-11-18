@@ -1,97 +1,78 @@
-import { AppWindow, Database, LayoutGrid, Plug } from "lucide-react";
-
-import { AppMock } from "@/components/diagrams/hero-art";
-import { Bridge } from "@/components/site/bridge";
-import { CtaBand } from "@/components/site/cta-band";
-import { Faq } from "@/components/site/faq";
-import { CheckList, DeliverableGrid, ProblemGrid } from "@/components/site/lists";
-import { PageHero } from "@/components/site/page-hero";
-import { Section, SectionHeading } from "@/components/site/section";
+import { Closing, FaqList, Hero, Rows, Sec, SplitPic, TextLink } from "@/components/kit/kit";
 import { software, softwareSeo } from "@/content/software";
 import { technologySeo } from "@/content/technology";
-import { JsonLd, pageMetadata, serviceLd } from "@/lib/seo";
+import { JsonLd, breadcrumbLd, faqLd, pageMetadata, serviceLd } from "@/lib/seo";
 
 export const metadata = pageMetadata(softwareSeo);
 
-const exampleIcons = [<AppWindow key="a" />, <Database key="b" />, <Plug key="c" />];
-
 export default function SoftwarePage() {
   const { hero, problems, method, examples, deliverables, bridge, start, faqs } = software;
+  const [lead, ...restIntro] = hero.intro;
 
   return (
     <>
+      <JsonLd data={serviceLd("Desarrollo de software a medida", softwareSeo.description, softwareSeo.path)} />
       <JsonLd
-        data={serviceLd("Desarrollo de software a medida", softwareSeo.description, softwareSeo.path)}
-      />
-      <PageHero
-        h1={hero.h1}
-        intro={hero.intro}
-        primary={hero.primary}
-        breadcrumbs={[
+        data={breadcrumbLd([
+          { name: "Inicio", path: "/" },
           { name: "Tecnología", path: technologySeo.path },
           { name: "Desarrollo de software a medida", path: softwareSeo.path },
-        ]}
-        art={<AppMock />}
+        ])}
       />
+      <JsonLd data={faqLd(faqs)} />
+      <main id="top">
+        <Hero h1={hero.h1} lead={lead} primary={hero.primary} img="laptop" />
 
-      <Section labelledBy="problemas-title">
-        <SectionHeading id="problemas-title" title={problems.title} />
-        <ProblemGrid items={problems.items} columns={2} />
-      </Section>
+        <Sec id="problemas" labelId="problemas-h" title={problems.title} ground="surface">
+          <div className="grid grid--top fill">
+            <Rows className="span-6" items={problems.items} />
+            <SplitPic k="bay" fill />
+          </div>
+          {restIntro.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
+        </Sec>
 
-      <Section tone="muted" labelledBy="metodo-title">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-          <div>
-            <SectionHeading id="metodo-title" title={method.title} className="mb-6 sm:mb-6" />
-            <div className="space-y-4 text-lg leading-relaxed text-muted-foreground">
+        <Sec id="metodo" labelId="metodo-h" title={method.title} h={2}>
+          <div className="grid grid--top fill">
+            <div className="span-6 stack-4">
               {method.paragraphs.map((p) => (
                 <p key={p}>{p}</p>
               ))}
+              <h3 className="t-card">Se define junto al equipo que usará la solución</h3>
+              <Rows items={method.pieces} />
             </div>
+            <SplitPic k="canvas" fill />
           </div>
-          <div className="self-center rounded-lg border bg-card p-6">
-            <p className="mb-4 flex items-center gap-2 text-sm font-semibold text-muted-foreground">
-              <LayoutGrid className="size-4 text-primary" aria-hidden="true" />
-              Se define junto al equipo que usará la solución
-            </p>
-            <CheckList items={method.pieces} />
+        </Sec>
+
+        <Sec id="ejemplos" labelId="ejemplos-h" title={examples.title} ground="surface">
+          <div className="grid grid--top fill">
+            <div className="span-6 stack-4">
+              <Rows items={examples.items} />
+              <p>{examples.closing}</p>
+            </div>
+            <SplitPic k="dc" fill />
           </div>
-        </div>
-      </Section>
+        </Sec>
 
-      <Section labelledBy="ejemplos-title">
-        <SectionHeading id="ejemplos-title" title={examples.title} />
-        <ul className="grid gap-5 md:grid-cols-3">
-          {examples.items.map((item, i) => (
-            <li
-              key={item}
-              className="rounded-lg border bg-card p-7 transition-colors"
-            >
-              <span
-                aria-hidden="true"
-                className="mb-5 flex size-12 items-center justify-center rounded-lg bg-primary text-primary-foreground [&_svg]:size-6"
-              >
-                {exampleIcons[i]}
-              </span>
-              <p className="text-lg leading-snug font-medium">{item}</p>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-8 max-w-3xl text-lg leading-relaxed text-muted-foreground">
-          {examples.closing}
-        </p>
-      </Section>
+        <Sec id="entregables" labelId="entregables-h" title={deliverables.title} ground="inverse">
+          <div className="grid grid--top fill">
+            <Rows className="span-6" items={deliverables.items} />
+            <SplitPic k="hub" fill />
+          </div>
+        </Sec>
 
-      <Section tone="brand" labelledBy="entregables-title">
-        <SectionHeading id="entregables-title" title={deliverables.title} />
-        <DeliverableGrid items={deliverables.items} />
-      </Section>
+        <Sec id="automatizacion" labelId="puente-h" title={bridge.title} lead={bridge.text}>
+          <div className="btn-row">
+            <TextLink cta={bridge.cta} />
+          </div>
+          <SplitPic k="office" />
+        </Sec>
 
-      <Bridge title={bridge.title} text={bridge.text} cta={bridge.cta} asLink />
-
-      <CtaBand title={start.title} text={start.text} cta={start.cta} />
-
-      <Faq items={faqs} tone="muted" />
+        <FaqList items={faqs} />
+      </main>
+      <Closing title={start.title} text={start.text} cta={start.cta} img="desk" />
     </>
   );
 }

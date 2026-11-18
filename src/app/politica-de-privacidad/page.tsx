@@ -1,7 +1,5 @@
-import { FileWarning } from "lucide-react";
-
-import { PageHero } from "@/components/site/page-hero";
-import { Section } from "@/components/site/section";
+import { Closing, Hero, Sec } from "@/components/kit/kit";
+import { home } from "@/content/home";
 import { pageMetadata } from "@/lib/seo";
 
 // Mientras el texto legal oficial no esté validado, la página no debe indexarse.
@@ -15,25 +13,13 @@ export const metadata = pageMetadata({
 export default function PrivacyPage() {
   return (
     <>
-      <PageHero
-        h1="Política de privacidad"
-        breadcrumbs={[{ name: "Política de privacidad", path: "/politica-de-privacidad/" }]}
-      />
-      <Section labelledBy="contenido-pendiente">
-        <div className="mx-auto max-w-3xl">
-          <div className="flex gap-4 rounded-lg border border-dashed border-rule bg-accent-soft p-6">
-            <FileWarning className="mt-0.5 size-6 shrink-0 text-primary" aria-hidden="true" />
-            <div>
-              <h2 id="contenido-pendiente" className="font-semibold">
-                Contenido pendiente
-              </h2>
-              <p className="mt-2 leading-relaxed text-muted-foreground">
-                El texto de esta política debe ser proporcionado y validado antes de publicar.
-              </p>
-            </div>
-          </div>
-        </div>
-      </Section>
+      <main id="top">
+        <Hero h1="Política de privacidad" lead="El texto de esta política debe ser proporcionado y validado antes de publicar." img="desk" />
+        <Sec id="contenido-pendiente" labelId="contenido-pendiente-h" title="Contenido pendiente">
+          <p>El texto de esta política debe ser proporcionado y validado antes de publicar.</p>
+        </Sec>
+      </main>
+      <Closing title={home.finalCta.title} text={home.finalCta.text} cta={home.finalCta.cta} img="office" />
     </>
   );
 }

@@ -1,111 +1,86 @@
-import { Bot, Cable, GitMerge, Workflow } from "lucide-react";
-
-import { ApprovalFlow } from "@/components/diagrams/approval-flow";
-import { CtaBand } from "@/components/site/cta-band";
-import { Faq } from "@/components/site/faq";
-import { CheckList, DeliverableGrid, ProblemGrid } from "@/components/site/lists";
-import { PageHero } from "@/components/site/page-hero";
-import { Section, SectionHeading } from "@/components/site/section";
+import { Closing, FaqList, Hero, Rows, Sec, SplitPic } from "@/components/kit/kit";
 import { automation, automationSeo } from "@/content/automation";
-import { JsonLd, pageMetadata, serviceLd } from "@/lib/seo";
 import { technologySeo } from "@/content/technology";
+import { JsonLd, breadcrumbLd, faqLd, pageMetadata, serviceLd } from "@/lib/seo";
 
 export const metadata = pageMetadata(automationSeo);
 
-const toolIcons = [<Workflow key="a" />, <GitMerge key="b" />, <Bot key="c" />, <Cable key="d" />];
+const flow = [
+  { name: "Solicitud", text: "Formulario de solicitud" },
+  { name: "Validación", text: "Reglas y documentos" },
+  { name: "Responsable", text: "Aprobador correcto" },
+  { name: "Aprobación", text: "Decisión del aprobador" },
+  { name: "Cierre", text: "El equipo recibe el resultado" },
+];
 
 export default function AutomationPage() {
-  const { hero, problems, method, automatable, example, deliverables, metrics, start, faqs } =
-    automation;
+  const { hero, problems, method, automatable, example, deliverables, metrics, start, faqs } = automation;
+  const [lead, ...restIntro] = hero.intro;
 
   return (
     <>
+      <JsonLd data={serviceLd("Automatización de procesos", automationSeo.description, automationSeo.path)} />
       <JsonLd
-        data={serviceLd("Automatización de procesos", automationSeo.description, automationSeo.path)}
-      />
-      <PageHero
-        h1={hero.h1}
-        intro={hero.intro}
-        primary={hero.primary}
-        breadcrumbs={[
+        data={breadcrumbLd([
+          { name: "Inicio", path: "/" },
           { name: "Tecnología", path: technologySeo.path },
           { name: "Automatización de procesos", path: automationSeo.path },
-        ]}
+        ])}
       />
+      <JsonLd data={faqLd(faqs)} />
+      <main id="top">
+        <Hero h1={hero.h1} lead={lead} primary={hero.primary} img="bay" />
 
-      <Section labelledBy="problemas-title">
-        <SectionHeading id="problemas-title" title={problems.title} />
-        <ProblemGrid items={problems.items} columns={2} />
-      </Section>
+        <Sec id="problemas" labelId="problemas-h" title={problems.title} ground="surface">
+          <div className="grid grid--top fill">
+            <Rows className="span-6" items={problems.items} />
+            <SplitPic k="office" fill />
+          </div>
+          {restIntro.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
+        </Sec>
 
-      <Section tone="muted" labelledBy="metodo-title">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-          <div>
-            <SectionHeading id="metodo-title" title={method.title} className="mb-6 sm:mb-6" />
-            <div className="space-y-4 text-lg leading-relaxed text-muted-foreground">
+        <Sec id="metodo" labelId="metodo-h" title={method.title} h={2}>
+          <div className="grid grid--top fill">
+            <div className="span-6 stack-4">
               {method.paragraphs.map((p) => (
                 <p key={p}>{p}</p>
               ))}
+              <Rows items={method.tools} />
             </div>
+            <SplitPic k="laptop" fill />
           </div>
-          <ul aria-hidden="true" className="grid grid-cols-2 gap-3 self-center">
-            {method.tools.map((t, i) => (
-              <li
-                key={t}
-                className="flex flex-col gap-3 rounded-lg border bg-card p-5 text-sm font-medium [&_svg]:size-6 [&_svg]:text-primary"
-              >
-                {toolIcons[i]}
-                {t}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Section>
+        </Sec>
 
-      <Section labelledBy="automatizable-title">
-        <SectionHeading id="automatizable-title" title={automatable.title} />
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {automatable.items.map((item) => (
-            <li
-              key={item}
-              className="rounded-lg border bg-card px-5 py-4 font-medium transition-colors"
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section tone="brand" labelledBy="ejemplo-title">
-        <SectionHeading
-          id="ejemplo-title"
-         
-          title={example.title}
-          lead={example.text}
-        />
-        <ApprovalFlow />
-      </Section>
-
-      <Section labelledBy="entregables-title">
-        <SectionHeading id="entregables-title" title={deliverables.title} />
-        <DeliverableGrid items={deliverables.items} />
-      </Section>
-
-      <Section tone="muted" labelledBy="indicadores-title" className="py-14 sm:py-20">
-        <div className="grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:gap-16">
-          <div>
-            <h2 id="indicadores-title" className="text-3xl font-semibold tracking-tight">
-              {metrics.title}
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{metrics.text}</p>
+        <Sec id="automatizable" labelId="automatizable-h" title={automatable.title} ground="surface">
+          <div className="grid grid--top fill">
+            <Rows className="span-6" items={automatable.items} />
+            <SplitPic k="hub" fill />
           </div>
-          <CheckList items={metrics.items} />
-        </div>
-      </Section>
+        </Sec>
 
-      <CtaBand title={start.title} text={start.text} cta={start.cta} />
+        <Sec id="ejemplo" labelId="ejemplo-h" title={example.title} lead={example.text} ground="inverse">
+          <Rows items={flow} />
+        </Sec>
 
-      <Faq items={faqs} tone="muted" />
+        <Sec id="entregables" labelId="entregables-h" title={deliverables.title}>
+          <div className="grid grid--top fill">
+            <Rows className="span-6" items={deliverables.items} />
+            <SplitPic k="dc" fill />
+          </div>
+        </Sec>
+
+        <Sec id="indicadores" labelId="indicadores-h" title={metrics.title} lead={metrics.text} ground="surface">
+          <div className="grid grid--top fill">
+            <Rows className="span-6" items={metrics.items} />
+            <SplitPic k="canvas" fill />
+          </div>
+        </Sec>
+
+        <FaqList items={faqs} />
+      </main>
+      <Closing title={start.title} text={start.text} cta={start.cta} img="desk" />
     </>
   );
 }

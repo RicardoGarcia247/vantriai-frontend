@@ -1,0 +1,49 @@
+{
+ "note": "Credits for the photographs in this folder: photos.mjs credits prints the footer block for the ones the pages use.",
+ "photos": [
+  {
+   "file": "photo-f86419362-960.jpg",
+   "files": [
+    "photo-f86419362-500.jpg",
+    "photo-f86419362-960.jpg"
+   ],
+   "id": "f86419362",
+   "alt": "CM Deep Ellum 12122018-28 (1)",
+   "by": "Thecommondesk",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:CM_Deep_Ellum_12122018-28_(1).jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f111283129.jpg",
+   "files": [
+    "photo-f111283129-500.jpg",
+    "photo-f111283129-960.jpg",
+    "photo-f111283129.jpg"
+   ],
+   "id": "f111283129",
+   "alt": "Cowork Videmonte",
+   "by": "Hipersyl",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Cowork_Videmonte.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f63785226.jpg",
+   "files": [
+    "photo-f63785226-500.jpg",
+    "photo-f63785226-960.jpg",
+    "photo-f63785226.jpg"
+   ],
+   "id": "f63785226",
+   "alt": "Toong Coworking Space in Hanoi",
+   "by": "Ann0611",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Toong_Coworking_Space_in_Hanoi.jpg",
+   "source": "Wikimedia Commons"
+  }
+ ]
+}

@@ -1,13 +1,7 @@
 "use client";
 
-import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
-import Link from "next/link";
 import { useId, useRef, useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { contact } from "@/content/contact";
 import {
   validateContact,
@@ -15,7 +9,6 @@ import {
   type ContactInput,
 } from "@/lib/contact-schema";
 import { paths } from "@/lib/site";
-import { cn } from "@/lib/utils";
 
 const { form: copy } = contact;
 type Status = "idle" | "sending" | "success" | "error";
@@ -48,9 +41,7 @@ export function ContactForm() {
     setErrors(found);
     const firstInvalid = (Object.keys(found) as (keyof ContactInput)[])[0];
     if (firstInvalid) {
-      formRef.current
-        ?.querySelector<HTMLElement>(`[name="${firstInvalid}"]`)
-        ?.focus();
+      formRef.current?.querySelector<HTMLElement>(`[name="${firstInvalid}"]`)?.focus();
       return;
     }
 
@@ -79,8 +70,7 @@ export function ContactForm() {
 
   const fieldError = (k: keyof ContactInput) =>
     errors[k] ? (
-      <p id={id(`${k}-error`)} className="mt-1.5 flex items-center gap-1.5 text-sm text-destructive">
-        <AlertCircle className="size-4 shrink-0" aria-hidden="true" />
+      <p id={id(`${k}-error`)} className="field__error">
         {errors[k]}
       </p>
     ) : null;
@@ -92,122 +82,90 @@ export function ContactForm() {
 
   if (status === "success") {
     return (
-      <div
-        role="status"
-        className="rounded-lg border border-rule bg-accent-soft p-8 text-center"
-      >
-        <CheckCircle2 className="mx-auto mb-4 size-10 text-primary" aria-hidden="true" />
-        <p className="text-lg font-medium">{copy.messages.success}</p>
+      <div role="status" className="card">
+        <p className="t-lead">{copy.messages.success}</p>
       </div>
     );
   }
 
   return (
-    <form
-      ref={formRef}
-      onSubmit={onSubmit}
-      noValidate
-      className="space-y-5 rounded-lg border bg-card p-6 sm:p-8"
-    >
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <Label htmlFor={id("name")} className="mb-2">
-            {copy.fields.name.label}
-          </Label>
-          <Input
-            id={id("name")}
-            name="name"
-            autoComplete="name"
-            required
-            placeholder={copy.fields.name.placeholder}
-            value={values.name}
-            onChange={(e) => update("name", e.target.value)}
-            onBlur={() => validateField("name")}
-            className="h-11"
-            {...aria("name")}
-          />
-          {fieldError("name")}
-        </div>
-        <div>
-          <Label htmlFor={id("email")} className="mb-2">
-            {copy.fields.email.label}
-          </Label>
-          <Input
-            id={id("email")}
-            name="email"
-            type="email"
-            autoComplete="email"
-            inputMode="email"
-            required
-            placeholder={copy.fields.email.placeholder}
-            value={values.email}
-            onChange={(e) => update("email", e.target.value)}
-            onBlur={() => validateField("email")}
-            className="h-11"
-            {...aria("email")}
-          />
-          {fieldError("email")}
-        </div>
+    <form ref={formRef} onSubmit={onSubmit} noValidate className="stack-4">
+      <div className="field">
+        <label htmlFor={id("name")}>{copy.fields.name.label}</label>
+        <input
+          id={id("name")}
+          name="name"
+          autoComplete="name"
+          required
+          placeholder={copy.fields.name.placeholder}
+          value={values.name}
+          onChange={(e) => update("name", e.target.value)}
+          onBlur={() => validateField("name")}
+          {...aria("name")}
+        />
+        {fieldError("name")}
       </div>
-
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <Label htmlFor={id("company")} className="mb-2">
-            {copy.fields.company.label}
-          </Label>
-          <Input
-            id={id("company")}
-            name="company"
-            autoComplete="organization"
-            required
-            placeholder={copy.fields.company.placeholder}
-            value={values.company}
-            onChange={(e) => update("company", e.target.value)}
-            onBlur={() => validateField("company")}
-            className="h-11"
-            {...aria("company")}
-          />
-          {fieldError("company")}
-        </div>
-        <div>
-          <Label htmlFor={id("interest")} className="mb-2">
-            {copy.fields.interest.label}
-          </Label>
-          <select
-            id={id("interest")}
-            name="interest"
-            required
-            value={values.interest}
-            onChange={(e) => update("interest", e.target.value)}
-            onBlur={() => validateField("interest")}
-            className={cn(
-              "h-11 w-full rounded-lg border border-input bg-transparent px-2.5 text-base outline-none transition-colors focus-visible:border-ring focus-visible:outline-2 focus-visible:outline-focus aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm",
-              !values.interest && "text-muted-foreground",
-            )}
-            {...aria("interest")}
-          >
-            <option value="" disabled>
-              Selecciona una opción
+      <div className="field">
+        <label htmlFor={id("email")}>{copy.fields.email.label}</label>
+        <input
+          id={id("email")}
+          name="email"
+          type="email"
+          autoComplete="email"
+          inputMode="email"
+          required
+          placeholder={copy.fields.email.placeholder}
+          value={values.email}
+          onChange={(e) => update("email", e.target.value)}
+          onBlur={() => validateField("email")}
+          {...aria("email")}
+        />
+        {fieldError("email")}
+      </div>
+      <div className="field">
+        <label htmlFor={id("company")}>{copy.fields.company.label}</label>
+        <input
+          id={id("company")}
+          name="company"
+          autoComplete="organization"
+          required
+          placeholder={copy.fields.company.placeholder}
+          value={values.company}
+          onChange={(e) => update("company", e.target.value)}
+          onBlur={() => validateField("company")}
+          {...aria("company")}
+        />
+        {fieldError("company")}
+      </div>
+      <div className="field">
+        <label htmlFor={id("interest")}>{copy.fields.interest.label}</label>
+        <select
+          id={id("interest")}
+          name="interest"
+          required
+          value={values.interest}
+          onChange={(e) => update("interest", e.target.value)}
+          onBlur={() => validateField("interest")}
+          {...aria("interest")}
+        >
+          <option value="" disabled>
+            Selecciona una opción
+          </option>
+          {copy.interestOptions.map((o) => (
+            <option key={o} value={o}>
+              {o}
             </option>
-            {copy.interestOptions.map((o) => (
-              <option key={o} value={o} className="text-foreground">
-                {o}
-              </option>
-            ))}
-          </select>
-          {fieldError("interest")}
-        </div>
+          ))}
+        </select>
+        {fieldError("interest")}
       </div>
-
-      <div>
-        <Label htmlFor={id("message")} className="mb-2">
-          {copy.fields.message.label}
-        </Label>
-        <Textarea
+      <div className="field">
+        <label htmlFor={id("message")}>{copy.fields.message.label}</label>
+        <textarea
           id={id("message")}
           name="message"
           required
-          rows={6}
+          rows={5}
           placeholder={copy.fields.message.placeholder}
           value={values.message}
           onChange={(e) => update("message", e.target.value)}
@@ -215,58 +173,35 @@ export function ContactForm() {
           {...aria("message")}
         />
         {fieldError("message")}
-        <p className="mt-2 text-sm text-muted-foreground">{copy.help}</p>
+        <p className="t-small muted">{copy.help}</p>
       </div>
 
       {/* Honeypot anti-spam: oculto para personas y lectores de pantalla. */}
-      <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+      <div
+        aria-hidden="true"
+        style={{ position: "absolute", left: -9999, width: 0, height: 0, overflow: "hidden" }}
+      >
         <label>
           No completar
           <input type="text" name="website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
 
-      <div aria-live="polite" className="min-h-6">
-        {status === "sending" && (
-          <p className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-            {copy.messages.sending}
-          </p>
-        )}
-        {status === "error" && (
-          <p
-            role="alert"
-            className="flex items-start gap-2 rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive"
-          >
-            <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-            {copy.messages.error}
-          </p>
-        )}
-      </div>
+      <p className="form__status" role="status" aria-live="polite">
+        {status === "sending" ? copy.messages.sending : status === "error" ? copy.messages.error : ""}
+      </p>
 
-      <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Button
-          type="submit"
-          disabled={status === "sending"}
-          className="h-11 gap-2 rounded-lg px-6 text-sm hover:bg-brand-600"
-        >
-          {status === "sending" ? (
-            <Loader2 className="animate-spin" aria-hidden="true" />
-          ) : (
-            <Send aria-hidden="true" />
-          )}
+      <div className="btn-row">
+        <button className="btn btn--primary" type="submit" disabled={status === "sending"}>
           {copy.submit}
-        </Button>
-        <p className="text-sm text-muted-foreground">
-          {copy.privacyLead}{" "}
-          <Link
-            href={paths.privacy}
-            className="text-primary underline underline-offset-4 hover:text-brand-700"
-          >
-            {copy.privacyLink}
-          </Link>
-        </p>
+        </button>
       </div>
+      <p className="t-small muted">
+        {copy.privacyLead}{" "}
+        <a className="link" href={paths.privacy}>
+          {copy.privacyLink}
+        </a>
+      </p>
     </form>
   );
 }

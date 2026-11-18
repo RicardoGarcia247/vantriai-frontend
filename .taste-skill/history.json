@@ -1,0 +1,16 @@
+{
+ "palettes": [],
+ "types": [],
+ "dealt": [
+  "newsreader",
+  "instrument",
+  "zilla"
+ ],
+ "moments": [
+  {
+   "id": "word-highlight",
+   "at": "2026-11-18T03:24:41.409Z",
+   "seed": "24fd987a"
+  }
+ ]
+}

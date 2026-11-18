@@ -1,52 +1,66 @@
-import { Users } from "lucide-react";
-
-import { CtaLink } from "@/components/site/cta-link";
-import { Faq } from "@/components/site/faq";
-import { PageHero } from "@/components/site/page-hero";
-import { SectorCard } from "@/components/site/sector-card";
-import { Section, SectionHeading } from "@/components/site/section";
+import { Closing, FaqList, Hero, Sec, SplitPic, TextLink } from "@/components/kit/kit";
+import { home } from "@/content/home";
 import { sectors, sectorsSeo } from "@/content/sectors";
-import { pageMetadata } from "@/lib/seo";
+import { JsonLd, breadcrumbLd, faqLd, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata(sectorsSeo);
 
+type SectorItem = (typeof sectors.experience.items)[number];
+
+function SectorList({ items }: { items: readonly SectorItem[] }) {
+  return (
+    <ul className="rows span-6">
+      {items.map((s) => (
+        <li key={s.key}>
+          <span className="rows__name">{s.title}</span>
+          <p>
+            <strong>Problemas habituales: </strong>
+            {s.problem}
+          </p>
+          <p>
+            <strong>Soluciones aplicables: </strong>
+            {s.solution}
+          </p>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function SectorsPage() {
   const { hero, experience, applicable, faqs } = sectors;
+  const [lead, ...restIntro] = hero.intro;
 
   return (
     <>
-      <PageHero
-        h1={hero.h1}
-        intro={hero.intro}
-        breadcrumbs={[{ name: "Sectores", path: sectorsSeo.path }]}
-      />
+      <JsonLd data={breadcrumbLd([{ name: "Inicio", path: "/" }, { name: "Sectores", path: sectorsSeo.path }])} />
+      <JsonLd data={faqLd(faqs)} />
+      <main id="top">
+        <Hero h1={hero.h1} lead={lead} img="office" />
 
-      <Section labelledBy="experiencia-title">
-        <SectionHeading id="experiencia-title" title={experience.title} />
-        <p className="-mt-6 mb-10 flex max-w-3xl items-start gap-3 rounded-lg bg-secondary p-5 text-secondary-foreground">
-          <Users className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
-          {experience.note}
-        </p>
-        <div className="grid gap-6 lg:grid-cols-2">
-          {experience.items.map((s) => (
-            <SectorCard key={s.key} sector={s} />
+        <Sec id="experiencia" labelId="experiencia-h" title={experience.title} lead={experience.note} ground="surface" h={2}>
+          <div className="grid grid--top fill">
+            <SectorList items={experience.items} />
+            <SplitPic k="hub" fill />
+          </div>
+          {restIntro.map((p) => (
+            <p key={p}>{p}</p>
           ))}
-        </div>
-      </Section>
+        </Sec>
 
-      <Section tone="muted" labelledBy="aplicables-title">
-        <SectionHeading id="aplicables-title" title={applicable.title} />
-        <div className="grid gap-6">
-          {applicable.items.map((s) => (
-            <SectorCard key={s.key} sector={s} />
-          ))}
-        </div>
-        <div className="mt-10">
-          <CtaLink href={applicable.cta.href}>{applicable.cta.label}</CtaLink>
-        </div>
-      </Section>
+        <Sec id="aplicables" labelId="aplicables-h" title={applicable.title} h={2}>
+          <div className="grid grid--top fill">
+            <SectorList items={applicable.items} />
+            <SplitPic k="bay" fill />
+          </div>
+          <div className="btn-row">
+            <TextLink cta={applicable.cta} />
+          </div>
+        </Sec>
 
-      <Faq items={faqs} />
+        <FaqList items={faqs} />
+      </main>
+      <Closing title={home.finalCta.title} text={home.finalCta.text} cta={home.finalCta.cta} img="desk" />
     </>
   );
 }

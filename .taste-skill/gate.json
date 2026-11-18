@@ -1,0 +1,863 @@
+{
+ "start": "2026-11-18T03:43:59.433Z",
+ "round": 3,
+ "idle": 0,
+ "errors": 0,
+ "status": "open",
+ "history": [
+  {
+   "at": "2026-11-18T03:46:44.218Z",
+   "mode": "manual",
+   "status": "fail",
+   "fails": 32,
+   "round": 1,
+   "reused": false,
+   "stopHookActive": false
+  },
+  {
+   "at": "2026-11-18T03:49:47.750Z",
+   "mode": "manual",
+   "status": "fail",
+   "fails": 26,
+   "round": 2,
+   "reused": false,
+   "stopHookActive": false
+  },
+  {
+   "at": "2026-11-18T03:52:48.467Z",
+   "mode": "manual",
+   "status": "open",
+   "fails": 14,
+   "round": 3,
+   "reused": false,
+   "stopHookActive": false
+  },
+  {
+   "at": "2026-11-18T03:53:05.918Z",
+   "mode": "hook",
+   "host": "claude",
+   "decision": "allow",
+   "reason": "no build is active here",
+   "stopHookActive": false
+  }
+ ],
+ "max": 3,
+ "marker": {
+  "page": null,
+  "url": "http://localhost:3000/",
+  "root": null,
+  "kind": "service",
+  "category": "consultoría tecnológica para empresas",
+  "primary": "Solicitar una reunión",
+  "rounds": 3,
+  "start": "2026-11-18T03:43:59.433Z",
+  "by": "gate.mjs --start"
+ },
+ "manual": true,
+ "roundKey": "2933764f90705b09:157ebb35",
+ "roundFree": false,
+ "idleFree": false,
+ "blockKey": null,
+ "fp": "2933764f90705b09",
+ "page": "http://localhost:3000/",
+ "found": {
+  "fails": [
+   {
+    "check": "card-layout",
+    "where": "section#tecnologia",
+    "msg": "one layout (.frame--photo) in 4 sections: section#tecnologia, section#empezar, section#preguntas-frecuentes, section#preguntas-frecuentes-2; a card layout at most twice",
+    "fix": "a card layout at most twice on a page: build the other sections another way",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "card-layout"
+    ],
+    "wheres": [
+     "section#tecnologia"
+    ]
+   },
+   {
+    "check": "copy-headings",
+    "where": "h2#focos-h \"Los dos focos de VantriAI\"",
+    "msg": "\"Los dos focos de VantriAI\" names no product, part, place or section (11 headings like it; at most one brand line per page) (and 10 more like it: \"¿Te suena familiar?\", \"Cómo se complementan los\", \"Puedes empezar por donde\", \"Cómo trabajamos\", ...)",
+    "fix": "name the thing in every heading: the product, a part, the place or a section noun",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "copy-headings"
+    ],
+    "wheres": [
+     "h2#focos-h \"Los dos focos de VantriAI\""
+    ]
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#preguntas-frecuentes / section#preguntas-frecuentes-2",
+    "msg": "383px between these sections, +80% against the median 213px",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "section-gaps"
+    ],
+    "wheres": [
+     "section#preguntas-frecuentes / section#preguntas-frecuentes-2"
+    ]
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#preguntas-frecuentes-2 / footer#contacto",
+    "msg": "383px between these sections, +80% against the median 213px of gaps at a change of ground",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "section-gaps"
+    ],
+    "wheres": [
+     "section#preguntas-frecuentes-2 / footer#contacto"
+    ]
+   },
+   {
+    "check": "phone-number",
+    "where": "div.grid > div.span-2.footer__col:nth-of-type(4) > ul > li:nth-of-type(3) \"+593 98 788 2435\"",
+    "msg": "a phone number in international format: \"+593 98 788 2435\"; a visitor can dial it and reach a stranger (and 2 more like it: div.span-2.footer__col:nth-of-type(4) > ul > li:nth-of-type(3) > a, script[type=\"application/ld+json\"] in the JSON-LD)",
+    "fix": "drop the number and its tel: link (a \"Request a call\" form may stand in), unless the brief gives the number",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "phone-number"
+    ],
+    "wheres": [
+     "div.grid > div.span-2.footer__col:nth-of-type(4) > ul > li:nth-of-type(3) \"+593 98 788 2435\""
+    ]
+   },
+   {
+    "check": "section-height",
+    "where": "section#empezar \"Puedes empezar por donde más lo necesite\"",
+    "msg": "the section's content does not fit it: its lowest content ends 833px below its top, past 828px (the section less 72px of bottom padding) (SR-2)",
+    "fix": "fit the content above the section's bottom padding (--padb), or make it two screens (.g2) in two groups",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "section-height"
+    ],
+    "wheres": [
+     "section#empezar \"Puedes empezar por donde más lo necesite\""
+    ]
+   },
+   {
+    "check": "flush",
+    "where": "div.wrap > div.grid.grid--top > div.frame.frame--photo > img.frame__img \"img: Oficina abierta con un equipo traba\"",
+    "msg": "its last line sits 2px above the lower edge of section#preguntas-frecuentes-2, where the ground changes to the footer",
+    "fix": "give the section its padding at the edge where the ground changes (the closing call keeps a clear gap above the footer)",
+    "widths": [
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "flush"
+    ],
+    "wheres": [
+     "div.wrap > div.grid.grid--top > div.frame.frame--photo > img.frame__img \"img: Oficina abierta con un equipo traba\""
+    ]
+   },
+   {
+    "check": "no-visual",
+    "where": "section#tecnologia \"Tecnología\"",
+    "msg": "pictures, effects and mocks cover 12% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "no-visual"
+    ],
+    "wheres": [
+     "section#tecnologia \"Tecnología\""
+    ]
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#complemento / section#empezar",
+    "msg": "211px between these sections, -68% against the median 666px of gaps at a change of ground",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "section-gaps"
+    ],
+    "wheres": [
+     "section#complemento / section#empezar"
+    ]
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#empezar / section#como-trabajamos",
+    "msg": "1071px between these sections (never on one screen), +629% against the median 147px",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "section-gaps"
+    ],
+    "wheres": [
+     "section#empezar / section#como-trabajamos"
+    ]
+   },
+   {
+    "check": "hole",
+    "where": "section#sectores \"Experiencia por sector\"",
+    "msg": "an empty hole 176x312px inside the section (37% of the screen's height), with content above and below it",
+    "fix": "close the empty space: move the content together, or give the space the visual it lacks",
+    "widths": [
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "hole"
+    ],
+    "wheres": [
+     "section#sectores \"Experiencia por sector\""
+    ]
+   },
+   {
+    "check": "empty-area",
+    "where": "section#empezar \"Puedes empezar por donde más lo necesite\"",
+    "msg": "56% of the section is empty: 848px under its last (a.link), in its 1491px of rows (WARN over 35%, FAIL over 50%)",
+    "fix": "fill the section: a picture or a second column beside the words, or more of its own content; the section stays one or two screens tall (T-height)",
+    "widths": [
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "empty-area"
+    ],
+    "wheres": [
+     "section#empezar \"Puedes empezar por donde más lo necesite\""
+    ]
+   },
+   {
+    "check": "collide",
+    "where": "div.grid.grid--top > div.faq.span-6 > div.faq__item:nth-of-type(3) > p \"Sí. Evaluamos una oportunidad concreta y\"",
+    "msg": "the words \"Sí. Evaluamos una oportunidad co\" lie over \"Más preguntas frecuentes\" of another section: two lines in one place (they run out of their own section, which is shorter than what it holds)",
+    "fix": "on a phone nothing lies on anything else: let the section grow with its content (min-height for its screens, never a fixed height; --hm: 2 when it needs two) or cut what it holds; keep pictures and cards off the buttons; pad the page under a fixed bar by the bar's height (top: the first section; end: the footer)",
+    "widths": [
+     320
+    ],
+    "from": "consistency",
+    "ids": [
+     "collide"
+    ],
+    "wheres": [
+     "div.grid.grid--top > div.faq.span-6 > div.faq__item:nth-of-type(3) > p \"Sí. Evaluamos una oportunidad concreta y\""
+    ]
+   },
+   {
+    "check": "collide",
+    "where": "section#preguntas-frecuentes > div.wrap > div.grid.grid--top > div.frame.frame--photo",
+    "msg": "the words \"Más preguntas frecuentes\" and the card div.grid.grid--top > div.frame.frame--photo of another section lie in one place: the card runs out of its section, which is shorter than what it holds",
+    "fix": "on a phone nothing lies on anything else: let the section grow with its content (min-height for its screens, never a fixed height; --hm: 2 when it needs two) or cut what it holds; keep pictures and cards off the buttons; pad the page under a fixed bar by the bar's height (top: the first section; end: the footer)",
+    "widths": [
+     320
+    ],
+    "from": "consistency",
+    "ids": [
+     "collide"
+    ],
+    "wheres": [
+     "section#preguntas-frecuentes > div.wrap > div.grid.grid--top > div.frame.frame--photo"
+    ]
+   },
+   {
+    "check": "collide",
+    "where": "section#preguntas-frecuentes-2 > div.wrap > div.grid.grid--top > div.frame.frame--photo",
+    "msg": "the words \"Cuéntanos cómo funciona hoy y qu\" and the card div.grid.grid--top > div.frame.frame--photo of another section lie in one place: the card runs out of its section, which is shorter than what it holds",
+    "fix": "on a phone nothing lies on anything else: let the section grow with its content (min-height for its screens, never a fixed height; --hm: 2 when it needs two) or cut what it holds; keep pictures and cards off the buttons; pad the page under a fixed bar by the bar's height (top: the first section; end: the footer)",
+    "widths": [
+     320
+    ],
+    "from": "consistency",
+    "ids": [
+     "collide"
+    ],
+    "wheres": [
+     "section#preguntas-frecuentes-2 > div.wrap > div.grid.grid--top > div.frame.frame--photo"
+    ]
+   },
+   {
+    "check": "hero-lines",
+    "where": "section.hero h1",
+    "msg": "the check fills the h1 to 45 characters (this hero's maxChars in heroes.json), not the page's own: it takes 4 lines at 1440, 3 at most",
+    "fix": "the check fills the h1 to this hero's maxChars, not your own: take the next type pairing the deal printed (start.mjs); when the h1 is final and fits, waive it (target: section.hero h1)",
+    "widths": [
+     1440
+    ],
+    "from": "layout",
+    "ids": [
+     "hero-lines"
+    ],
+    "wheres": [
+     "section.hero h1"
+    ]
+   },
+   {
+    "check": "sparse",
+    "where": "#empezar section.section \"Puedes empezar por donde más lo \"",
+    "msg": "its content fills 37% of its screen; merge it or give it its visual (0.55 is the aim)",
+    "fix": "fill the section or make it a screen shorter",
+    "widths": [
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "sparse"
+    ],
+    "wheres": [
+     "#empezar section.section \"Puedes empezar por donde más lo \""
+    ]
+   }
+  ],
+  "warns": [
+   {
+    "check": "scroll-reveal",
+    "where": "section#publico > div.wrap > p.mo-wh__text \"A gerencias y equipos de TI, operaciones\"",
+    "msg": "starts \"color\" (0.2 s) the moment it is scrolled into view (an IntersectionObserver) on span.mo-w:nth-of-type(1) (inside a dealt moment's section, [data-moment]: an enter moment is expected on every kind; its still is judged under reduced motion)",
+    "fix": "show it at rest: no fade, rise or unmask when it is scrolled into view",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "no-visual",
+    "where": "section#empezar \"Puedes empezar por donde más lo necesite\"",
+    "msg": "pictures, effects and mocks cover 25% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "copy-buttons",
+    "where": "header.nav.nav--centre > div.wrap.nav__bar > div.nav__actions > a.btn.btn--primary \"Solicitar una reunión\"",
+    "msg": "\"Solicitar una reunión\" does not start with a verb (book, buy, try, start, get, see...) (and 1 more like it: \"Hablemos de tu operación\")",
+    "fix": "label buttons with a verb and what the visitor gets (\"Book a room\", \"Start free trial\")",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "copy-actions",
+    "where": "header.nav.nav--centre > div.wrap.nav__bar > div.nav__actions > a.btn.btn--primary \"Solicitar una reunión\"",
+    "msg": "2 labels for one target /contacto/: \"Solicitar una reunión\", \"Hablemos de tu operación\"",
+    "fix": "few actions, one wording: at most 2 in the hero, the main action word for word in nav, hero and close",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "copy-actions",
+    "where": "(the page)",
+    "msg": "the main action \"Solicitar una reunión\" does not read word for word the same in the closing section",
+    "fix": "few actions, one wording: at most 2 in the hero, the main action word for word in nav, hero and close",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#complemento / section#empezar",
+    "msg": "291px between these sections, +37% against the median 213px of gaps at a change of ground",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#como-trabajamos / section#sectores",
+    "msg": "301px between these sections, +41% against the median 213px of gaps at a change of ground",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#focos / section#tecnologia",
+    "msg": "uneven space at the edge of a band: 72px outside its edge, 122px inside it (the space on either side of a change of ground reads as one gap only when the two match)",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#problemas / section#complemento",
+    "msg": "uneven space at the edge of a band: 72px outside its edge, 122px inside it (the space on either side of a change of ground reads as one gap only when the two match)",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#preguntas-frecuentes-2 / footer#contacto",
+    "msg": "uneven space at the edge of a band: 261px outside its edge, 122px inside it (the space on either side of a change of ground reads as one gap only when the two match)",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "photo-set",
+    "where": "div.grid > article.card.card--row:nth-of-type(2) > div.panel > img.frame__img \"photo-f69501205.jpg\"",
+    "msg": "8 photographs in more than one look: lightness from 0.20 to 0.83; saturation from 0.09 to 0.39; warm and cool photographs mixed (b* -10 to +12); the odd one out is photo-f69501205.jpg",
+    "fix": "grade the photographs to one look (light, colour, warmth), or replace the odd one out",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "photo-credit",
+    "where": "(the page text)",
+    "msg": "1 library source (wikimedia): the page credits wikimedia; confirm each shows the client's own product, place or people",
+    "fix": "confirm the library photograph shows the client's own product, place or people; otherwise replace it",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "label-centre",
+    "where": "header.nav.nav--centre > div.wrap.nav__bar > div.nav__actions > a.btn.btn--primary \"Solicitar una reunión\"",
+    "msg": "its label sits 18px off-centre (25px of room at the left, 43px at the right)",
+    "fix": "centre the label in its button, or fill the empty side with an icon",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "photo-repeat",
+    "where": "div.wrap > div.grid.grid--top > div.frame.frame--photo > img.frame__img \"photo-f8575733.jpg\"",
+    "msg": "the photograph photo-f8575733.jpg is shown 2 times on the page: a picture the visitor has already seen",
+    "fix": "show each photograph once: a different picture of what this section names, or none",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "action-repeat",
+    "where": "header.nav.nav--centre > div.wrap.nav__bar > div.nav__actions > a.btn.btn--primary \"solicitar una reunión\"",
+    "msg": "\"solicitar una reunión\" shows 2 times on the first screen at 1440px (nav, hero): the nav's button and the hero's; nothing else on the screen may repeat it",
+    "fix": "show the action once a screen besides the nav's button: the hero's, the close's or the phone bar's, never all at once",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "no-visual",
+    "where": "section#focos \"Los dos focos de VantriAI\"",
+    "msg": "pictures, effects and mocks cover 21% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "no-visual",
+    "where": "section#problemas \"¿Te suena familiar?\"",
+    "msg": "pictures, effects and mocks cover 20% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "no-visual",
+    "where": "section#preguntas-frecuentes \"Preguntas frecuentes\"",
+    "msg": "pictures, effects and mocks cover 16% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "no-visual",
+    "where": "section#preguntas-frecuentes-2 \"Más preguntas frecuentes\"",
+    "msg": "pictures, effects and mocks cover 15% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "cta",
+    "where": "section#problemas \"¿Te suena familiar?\"",
+    "msg": "a section over 1.5 screens long with no link or button in it",
+    "fix": "add the action: a button in the hero, one on every priced item, one in the closing section",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "cta",
+    "where": "section#como-trabajamos \"Cómo trabajamos\"",
+    "msg": "a section over 1.5 screens long with no link or button in it",
+    "fix": "add the action: a button in the hero, one on every priced item, one in the closing section",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "photo-set",
+    "where": "div.wrap > div.stack-4 > div.frame.frame--photo > img.frame__img \"photo-f111283129-960.jpg\"",
+    "msg": "11 photographs in more than one look: lightness from 0.21 to 0.85; saturation from 0.09 to 0.44; warm and cool photographs mixed (b* -23 to +19); the odd one out is photo-f111283129-960.jpg",
+    "fix": "grade the photographs to one look (light, colour, warmth), or replace the odd one out",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "empty-area",
+    "where": "section#tecnologia \"Tecnología\"",
+    "msg": "38% of the section is empty: 576px under its last (li:nth-of-type(5)), in its 1491px of rows (WARN over 35%, FAIL over 50%)",
+    "fix": "fill the section: a picture or a second column beside the words, or more of its own content; the section stays one or two screens tall (T-height)",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   }
+  ],
+  "crashed": [],
+  "seconds": {
+   "consistency": 156,
+   "layout": 5
+  }
+ },
+ "open": [
+  {
+   "check": "card-layout",
+   "where": "section#tecnologia",
+   "msg": "one layout (.frame--photo) in 4 sections: section#tecnologia, section#empezar, section#preguntas-frecuentes, section#preguntas-frecuentes-2; a card layout at most twice",
+   "fix": "a card layout at most twice on a page: build the other sections another way",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "card-layout"
+   ],
+   "wheres": [
+    "section#tecnologia"
+   ]
+  },
+  {
+   "check": "section-gaps",
+   "where": "section#preguntas-frecuentes / section#preguntas-frecuentes-2",
+   "msg": "383px between these sections, +80% against the median 213px",
+   "fix": "use one gap between sections (all within 25% of each other)",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "section-gaps"
+   ],
+   "wheres": [
+    "section#preguntas-frecuentes / section#preguntas-frecuentes-2"
+   ]
+  },
+  {
+   "check": "section-gaps",
+   "where": "section#preguntas-frecuentes-2 / footer#contacto",
+   "msg": "383px between these sections, +80% against the median 213px of gaps at a change of ground",
+   "fix": "use one gap between sections (all within 25% of each other)",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "section-gaps"
+   ],
+   "wheres": [
+    "section#preguntas-frecuentes-2 / footer#contacto"
+   ]
+  },
+  {
+   "check": "section-height",
+   "where": "section#empezar \"Puedes empezar por donde más lo necesite\"",
+   "msg": "the section's content does not fit it: its lowest content ends 833px below its top, past 828px (the section less 72px of bottom padding) (SR-2)",
+   "fix": "fit the content above the section's bottom padding (--padb), or make it two screens (.g2) in two groups",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "section-height"
+   ],
+   "wheres": [
+    "section#empezar \"Puedes empezar por donde más lo necesite\""
+   ]
+  },
+  {
+   "check": "flush",
+   "where": "div.wrap > div.grid.grid--top > div.frame.frame--photo > img.frame__img \"img: Oficina abierta con un equipo traba\"",
+   "msg": "its last line sits 2px above the lower edge of section#preguntas-frecuentes-2, where the ground changes to the footer",
+   "fix": "give the section its padding at the edge where the ground changes (the closing call keeps a clear gap above the footer)",
+   "widths": [
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "flush"
+   ],
+   "wheres": [
+    "div.wrap > div.grid.grid--top > div.frame.frame--photo > img.frame__img \"img: Oficina abierta con un equipo traba\""
+   ]
+  },
+  {
+   "check": "no-visual",
+   "where": "section#tecnologia \"Tecnología\"",
+   "msg": "pictures, effects and mocks cover 12% of this section; a feature section needs a visual (about 25% or more)",
+   "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+   "widths": [
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "no-visual"
+   ],
+   "wheres": [
+    "section#tecnologia \"Tecnología\""
+   ]
+  },
+  {
+   "check": "section-gaps",
+   "where": "section#complemento / section#empezar",
+   "msg": "211px between these sections, -68% against the median 666px of gaps at a change of ground",
+   "fix": "use one gap between sections (all within 25% of each other)",
+   "widths": [
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "section-gaps"
+   ],
+   "wheres": [
+    "section#complemento / section#empezar"
+   ]
+  },
+  {
+   "check": "section-gaps",
+   "where": "section#empezar / section#como-trabajamos",
+   "msg": "1071px between these sections (never on one screen), +629% against the median 147px",
+   "fix": "use one gap between sections (all within 25% of each other)",
+   "widths": [
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "section-gaps"
+   ],
+   "wheres": [
+    "section#empezar / section#como-trabajamos"
+   ]
+  },
+  {
+   "check": "hole",
+   "where": "section#sectores \"Experiencia por sector\"",
+   "msg": "an empty hole 176x312px inside the section (37% of the screen's height), with content above and below it",
+   "fix": "close the empty space: move the content together, or give the space the visual it lacks",
+   "widths": [
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "hole"
+   ],
+   "wheres": [
+    "section#sectores \"Experiencia por sector\""
+   ]
+  },
+  {
+   "check": "empty-area",
+   "where": "section#empezar \"Puedes empezar por donde más lo necesite\"",
+   "msg": "56% of the section is empty: 848px under its last (a.link), in its 1491px of rows (WARN over 35%, FAIL over 50%)",
+   "fix": "fill the section: a picture or a second column beside the words, or more of its own content; the section stays one or two screens tall (T-height)",
+   "widths": [
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "empty-area"
+   ],
+   "wheres": [
+    "section#empezar \"Puedes empezar por donde más lo necesite\""
+   ]
+  },
+  {
+   "check": "collide",
+   "where": "div.grid.grid--top > div.faq.span-6 > div.faq__item:nth-of-type(3) > p \"Sí. Evaluamos una oportunidad concreta y\"",
+   "msg": "the words \"Sí. Evaluamos una oportunidad co\" lie over \"Más preguntas frecuentes\" of another section: two lines in one place (they run out of their own section, which is shorter than what it holds)",
+   "fix": "on a phone nothing lies on anything else: let the section grow with its content (min-height for its screens, never a fixed height; --hm: 2 when it needs two) or cut what it holds; keep pictures and cards off the buttons; pad the page under a fixed bar by the bar's height (top: the first section; end: the footer)",
+   "widths": [
+    320
+   ],
+   "from": "consistency",
+   "ids": [
+    "collide"
+   ],
+   "wheres": [
+    "div.grid.grid--top > div.faq.span-6 > div.faq__item:nth-of-type(3) > p \"Sí. Evaluamos una oportunidad concreta y\""
+   ]
+  },
+  {
+   "check": "collide",
+   "where": "section#preguntas-frecuentes > div.wrap > div.grid.grid--top > div.frame.frame--photo",
+   "msg": "the words \"Más preguntas frecuentes\" and the card div.grid.grid--top > div.frame.frame--photo of another section lie in one place: the card runs out of its section, which is shorter than what it holds",
+   "fix": "on a phone nothing lies on anything else: let the section grow with its content (min-height for its screens, never a fixed height; --hm: 2 when it needs two) or cut what it holds; keep pictures and cards off the buttons; pad the page under a fixed bar by the bar's height (top: the first section; end: the footer)",
+   "widths": [
+    320
+   ],
+   "from": "consistency",
+   "ids": [
+    "collide"
+   ],
+   "wheres": [
+    "section#preguntas-frecuentes > div.wrap > div.grid.grid--top > div.frame.frame--photo"
+   ]
+  },
+  {
+   "check": "collide",
+   "where": "section#preguntas-frecuentes-2 > div.wrap > div.grid.grid--top > div.frame.frame--photo",
+   "msg": "the words \"Cuéntanos cómo funciona hoy y qu\" and the card div.grid.grid--top > div.frame.frame--photo of another section lie in one place: the card runs out of its section, which is shorter than what it holds",
+   "fix": "on a phone nothing lies on anything else: let the section grow with its content (min-height for its screens, never a fixed height; --hm: 2 when it needs two) or cut what it holds; keep pictures and cards off the buttons; pad the page under a fixed bar by the bar's height (top: the first section; end: the footer)",
+   "widths": [
+    320
+   ],
+   "from": "consistency",
+   "ids": [
+    "collide"
+   ],
+   "wheres": [
+    "section#preguntas-frecuentes-2 > div.wrap > div.grid.grid--top > div.frame.frame--photo"
+   ]
+  },
+  {
+   "check": "sparse",
+   "where": "#empezar section.section \"Puedes empezar por donde más lo \"",
+   "msg": "its content fills 37% of its screen; merge it or give it its visual (0.55 is the aim)",
+   "fix": "fill the section or make it a screen shorter",
+   "widths": [
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "sparse"
+   ],
+   "wheres": [
+    "#empezar section.section \"Puedes empezar por donde más lo \""
+   ]
+  }
+ ],
+ "waived": [
+  {
+   "check": "copy-headings",
+   "where": "h2#focos-h \"Los dos focos de VantriAI\"",
+   "msg": "\"Los dos focos de VantriAI\" names no product, part, place or section (11 headings like it; at most one brand line per page) (and 10 more like it: \"¿Te suena familiar?\", \"Cómo se complementan los\", \"Puedes empezar por donde\", \"Cómo trabajamos\", ...)",
+   "fix": "name the thing in every heading: the product, a part, the place or a section noun",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "copy-headings"
+   ],
+   "wheres": [
+    "h2#focos-h \"Los dos focos de VantriAI\""
+   ],
+   "reason": "Los títulos de sección son texto del cliente y se conservan tal cual; nombran gobernanza, tecnología y método de VantriAI."
+  },
+  {
+   "check": "phone-number",
+   "where": "div.grid > div.span-2.footer__col:nth-of-type(4) > ul > li:nth-of-type(3) \"+593 98 788 2435\"",
+   "msg": "a phone number in international format: \"+593 98 788 2435\"; a visitor can dial it and reach a stranger (and 2 more like it: div.span-2.footer__col:nth-of-type(4) > ul > li:nth-of-type(3) > a, script[type=\"application/ld+json\"] in the JSON-LD)",
+   "fix": "drop the number and its tel: link (a \"Request a call\" form may stand in), unless the brief gives the number",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "phone-number"
+   ],
+   "wheres": [
+    "div.grid > div.span-2.footer__col:nth-of-type(4) > ul > li:nth-of-type(3) \"+593 98 788 2435\""
+   ],
+   "reason": "Es el teléfono real de VantriAI, publicado por el cliente en su sitio y en el contacto; se conserva."
+  },
+  {
+   "check": "hero-lines",
+   "where": "section.hero h1",
+   "msg": "the check fills the h1 to 45 characters (this hero's maxChars in heroes.json), not the page's own: it takes 4 lines at 1440, 3 at most",
+   "fix": "the check fills the h1 to this hero's maxChars, not your own: take the next type pairing the deal printed (start.mjs); when the h1 is final and fits, waive it (target: section.hero h1)",
+   "widths": [
+    1440
+   ],
+   "from": "layout",
+   "ids": [
+    "hero-lines"
+   ],
+   "wheres": [
+    "section.hero h1"
+   ],
+   "reason": "El titular final tiene 37 caracteres y ocupa 3 líneas; la prueba lo rellena hasta 45 de forma artificial."
+  }
+ ],
+ "warnCount": 23,
+ "at": "2026-11-18T03:52:48.467Z",
+ "openTold": true
+}

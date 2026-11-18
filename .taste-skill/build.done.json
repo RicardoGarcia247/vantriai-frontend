@@ -1,0 +1,11 @@
+{
+ "page": null,
+ "url": "http://localhost:3000/",
+ "root": null,
+ "kind": "service",
+ "category": "consultoría tecnológica para empresas",
+ "primary": "Solicitar una reunión",
+ "rounds": 3,
+ "start": "2026-11-18T03:43:59.433Z",
+ "by": "gate.mjs --start"
+}

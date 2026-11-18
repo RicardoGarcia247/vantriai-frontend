@@ -1,150 +1,95 @@
-import { Compass, Cpu } from "lucide-react";
-
-import { ComplementDiagram } from "@/components/diagrams/complement-diagram";
-import { HomeArt } from "@/components/diagrams/hero-art";
-import { ProcessSteps } from "@/components/diagrams/process-steps";
-import { CtaBand } from "@/components/site/cta-band";
-import { CtaLink } from "@/components/site/cta-link";
-import { Faq } from "@/components/site/faq";
-import { CheckList, ProblemGrid } from "@/components/site/lists";
-import { PageHero } from "@/components/site/page-hero";
-import { Section, SectionHeading } from "@/components/site/section";
+import { Card, Closing, FaqList, Hero, PanelSplit, Rows, Sec, Split, Strip, TextLink } from "@/components/kit/kit";
+import { JsonLd, faqLd, pageMetadata } from "@/lib/seo";
 import { home, homeSeo } from "@/content/home";
-import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata(homeSeo);
 
-const pillarIcons = { governance: Compass, technology: Cpu } as const;
-
 export default function HomePage() {
   const { hero, pillars, problems, complement, method, sectors, audience, faqs, finalCta } = home;
-  const [heroIntro, ...restIntro] = hero.intro;
+  const [gov, tech] = pillars.items;
+  // El titular de la página es la primera mitad del h1 original; la segunda va como primera línea del apoyo.
+  const [h1, rest] = hero.h1.split(": ");
+  const lead = `${rest.charAt(0).toUpperCase()}${rest.slice(1)}. 2 focos con el mismo peso y 4 etapas de trabajo.`;
 
   return (
     <>
-      <PageHero
-        size="large"
-        h1={hero.h1}
-        intro={[heroIntro]}
-        primary={hero.primary}
-        secondary={hero.secondary}
-        art={<HomeArt />}
-      />
+      <JsonLd data={faqLd(faqs)} />
+      <main id="top">
+        <Hero h1={h1} lead={lead} primary={hero.primary} secondary={hero.secondary} img="canvas" pos="50% 40%" />
 
-      {/* Los dos focos: la cabecera a la izquierda, los dos focos en columnas separadas por un filete. */}
-      <Section labelledBy="focos-title">
-        <div className="grid gap-(--space-xl) lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-(--gap-columns)">
-          <div>
-            <SectionHeading id="focos-title" title={pillars.title} className="mb-(--space-lg)" />
-            {restIntro.map((p) => (
-              <p key={p} className="text-muted-foreground">
-                {p}
-              </p>
-            ))}
+        <Sec id="focos" hm={2} labelId="focos-h" title={pillars.title} lead={hero.intro[0]}>
+          <Split k="hub">
+            <h3 className="t-card">{gov.title}</h3>
+            <p>{gov.text}</p>
+            <Rows items={gov.list} />
+            <TextLink cta={gov.cta} />
+          </Split>
+        </Sec>
+
+        <Sec id="tecnologia" hm={2} labelId="tecnologia-h" title={tech.title} lead={hero.intro[1]} ground="surface">
+          <Strip
+            k="laptop"
+            pos="50% 60%"
+            aside={<Rows items={tech.list} />}
+          >
+            <p>{tech.text}</p>
+            <TextLink cta={tech.cta} />
+          </Strip>
+        </Sec>
+
+        <Sec id="problemas" hm={2} labelId="problemas-h" title={problems.title} lead={problems.lead}>
+          <Split k="office">
+            <Rows items={problems.items} />
+            <p className="t-lead">{problems.closing}</p>
+          </Split>
+        </Sec>
+
+        <Sec id="complemento" labelId="complemento-h" title={complement.title} lead={complement.intro} ground="surface">
+          <p className="t-lead">{complement.example}</p>
+          <div className="grid">
+            <Card title="Gobernanza y Consultoría" img="nolich">
+              <p>{complement.governance.replace("Gobernanza y Consultoría: ", "")}</p>
+            </Card>
+            <Card title="Tecnología" img="dc">
+              <p>{complement.technology.replace("Tecnología: ", "")}</p>
+            </Card>
           </div>
-          <div className="grid gap-(--space-2xl) md:grid-cols-2 md:gap-(--gap-columns)">
-            {pillars.items.map((p) => {
-              const Icon = pillarIcons[p.key as keyof typeof pillarIcons];
-              return (
-                <article key={p.key} className="flex flex-col border-t border-ink pt-(--space-lg)">
-                  <Icon aria-hidden="true" className="mb-(--space-md) size-7 text-accent" />
-                  <h3 className="text-(length:--text-2xl)">{p.title}</h3>
-                  <p className="mt-(--space-md) text-muted-foreground">{p.text}</p>
-                  <CheckList items={p.list} className="mt-(--space-lg) flex-1" />
-                  <div className="mt-(--space-lg)">
-                    <CtaLink href={p.cta.href} variant="link">
-                      {p.cta.label}
-                    </CtaLink>
-                  </div>
-                </article>
-              );
-            })}
+          <p className="t-lead">{complement.result}</p>
+        </Sec>
+
+        <Sec id="empezar" hm={2} labelId="empezar-h" title={complement.startTitle}>
+          <Strip k="room" pos="50% 55%">
+            <Rows items={complement.start.map((s) => ({ name: s.label, text: s.text }))} />
+            <TextLink cta={complement.cta} />
+          </Strip>
+        </Sec>
+
+        <Sec id={method.id} hm={2} labelId="metodo-h" title={method.title} ground="inverse">
+          <PanelSplit k="team">
+            <Rows items={method.steps.map((s) => ({ name: s.title, text: s.text }))} />
+          </PanelSplit>
+        </Sec>
+
+        <Sec id="sectores" hm={2} labelId="sectores-h" title={sectors.title} lead={sectors.text}>
+          <PanelSplit k="bay">
+            <Rows items={sectors.chips} />
+            <TextLink cta={sectors.cta} />
+          </PanelSplit>
+        </Sec>
+
+        <section className="section statement" id="publico" data-moment="word-highlight" aria-label={audience.title}>
+          <div className="wrap">
+            <p className="t-label">{audience.title}</p>
+            <p className="mo-wh__text">
+              A <strong>gerencias y equipos de TI</strong>, operaciones y transformación que necesitan ordenar su
+              gestión, mejorar procesos o modernizar herramientas.
+            </p>
           </div>
-        </div>
-      </Section>
+        </section>
 
-      {/* Problemas: filas numeradas junto a la cabecera. */}
-      <Section tone="muted" labelledBy="problemas-title">
-        <div className="grid gap-(--space-xl) lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-(--gap-columns)">
-          <div className="lg:sticky lg:top-(--space-3xl) lg:self-start">
-            <SectionHeading id="problemas-title" title={problems.title} lead={problems.lead} className="mb-0" />
-          </div>
-          <div>
-            <ProblemGrid items={problems.items} columns={2} />
-            <p className="lead mt-(--space-xl) max-w-none font-bold">{problems.closing}</p>
-          </div>
-        </div>
-      </Section>
-
-      {/* El ejemplo de los dos focos trabajando juntos y las tres formas de empezar. */}
-      <Section labelledBy="complemento-title">
-        <SectionHeading id="complemento-title" title={complement.title} lead={complement.intro} />
-        <p className="mb-(--space-lg) max-w-none text-(length:--text-lg) font-bold">{complement.example}</p>
-        <ComplementDiagram
-          governance={complement.governance}
-          technology={complement.technology}
-          result={complement.result}
-        />
-
-        <div className="mt-(--space-3xl)">
-          <h3 className="mb-(--space-xl) text-(length:--text-2xl)">{complement.startTitle}</h3>
-          <ul className="grid md:grid-cols-3">
-            {complement.start.map((s) => (
-              <li
-                key={s.label}
-                className="border-t border-ink py-(--space-lg) md:border-l md:border-t-0 md:px-(--space-lg) md:first:border-l-0 md:first:pl-0"
-              >
-                <p className="max-w-none text-(length:--text-title) font-bold">{s.label}</p>
-                <p className="mt-(--space-sm) text-muted-foreground">{s.text}</p>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-(--space-xl)">
-            <CtaLink href={complement.cta.href} variant="link">
-              {complement.cta.label}
-            </CtaLink>
-          </div>
-        </div>
-      </Section>
-
-      <Section id={method.id} tone="brand" labelledBy="metodo-title">
-        <SectionHeading id="metodo-title" title={method.title} />
-        <ProcessSteps steps={method.steps} />
-      </Section>
-
-      {/* Sectores: la lista a la izquierda como filas, la cabecera y la acción a la derecha. */}
-      <Section labelledBy="sectores-title">
-        <div className="grid items-start gap-(--space-xl) lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-(--gap-columns)">
-          <ul className="order-2 border-t border-ink lg:order-1">
-            {sectors.chips.map((c) => (
-              <li
-                key={c}
-                className="border-b border-rule py-(--space-md) text-(length:--text-xl) font-bold"
-              >
-                {c}
-              </li>
-            ))}
-          </ul>
-          <div className="order-1 lg:order-2">
-            <SectionHeading id="sectores-title" title={sectors.title} lead={sectors.text} className="mb-(--space-lg)" />
-            <CtaLink href={sectors.cta.href}>{sectors.cta.label}</CtaLink>
-          </div>
-        </div>
-      </Section>
-
-      {/* Público: una afirmación a tamaño de sección. */}
-      <Section tone="muted" labelledBy="publico-title">
-        <div className="grid gap-(--space-lg) lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:items-end lg:gap-(--gap-columns)">
-          <h2 id="publico-title" className="max-w-[24ch] text-(length:--text-display-s)">
-            {audience.title}
-          </h2>
-          <p className="text-muted-foreground">{audience.text}</p>
-        </div>
-      </Section>
-
-      <Faq items={faqs} />
-
-      <CtaBand title={finalCta.title} text={finalCta.text} cta={finalCta.cta} />
+        <FaqList items={faqs} img="work" img2="office" />
+      </main>
+      <Closing title={finalCta.title} text={finalCta.text} cta={finalCta.cta} img="desk" />
     </>
   );
 }
