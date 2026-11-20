@@ -1,9 +1,3 @@
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-
 type Props = {
   href: string;
   children: React.ReactNode;
@@ -14,49 +8,32 @@ type Props = {
   external?: boolean;
 };
 
-export function CtaLink({
-  href,
-  children,
-  variant = "primary",
-  arrow,
-  className,
-  external,
-}: Props) {
-  const showArrow = arrow ?? variant !== "secondary";
-  const content = (
-    <>
-      {children}
-      {showArrow && (
-        <ArrowRight className="transition-transform group-hover/cta:translate-x-0.5" />
-      )}
-    </>
-  );
-
-  const classes =
-    variant === "link"
-      ? cn(
-          "group/cta inline-flex items-center gap-1.5 rounded-sm font-medium text-primary underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 [&_svg]:size-4",
-          className,
-        )
-      : cn(
-          buttonVariants({ variant: variant === "primary" ? "default" : "outline" }),
-          "group/cta h-11 gap-2 rounded-xl px-5 text-sm",
-          variant === "primary" &&
-            "shadow-sm shadow-primary/25 hover:bg-brand-600 active:bg-brand-700",
-          className,
-        );
-
-  if (external) {
-    return (
-      <a href={href} className={classes} target="_blank" rel="noopener noreferrer">
-        {content}
-      </a>
-    );
-  }
-
+export function Arrow() {
   return (
-    <Link href={href} className={classes}>
-      {content}
-    </Link>
+    <svg className="m-arrow" viewBox="0 0 12 12" aria-hidden="true">
+      <path className="m-arrow__stem" d="M1 6h8" />
+      <path className="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5" />
+    </svg>
+  );
+}
+
+/**
+ * Enlace con aspecto de botón o de enlace de texto. Se usa <a> nativo (carga completa de página)
+ * para que el kit de diseño (movimiento, momentos, menú) se inicialice en cada página.
+ */
+export function CtaLink({ href, children, variant = "primary", arrow, className, external }: Props) {
+  const showArrow = arrow ?? variant !== "secondary";
+  const base =
+    variant === "link" ? "link link--arrow" : variant === "primary" ? "btn btn--primary" : "btn btn--secondary";
+  const ext = external ?? href.startsWith("http");
+  return (
+    <a
+      href={href}
+      className={[base, className].filter(Boolean).join(" ")}
+      {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {children}
+      {showArrow && <Arrow />}
+    </a>
   );
 }

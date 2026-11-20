@@ -1,112 +1,72 @@
-import {
-  BarChart3,
-  FileCheck2,
-  FileText,
-  GitBranch,
-  LayoutDashboard,
-  Map,
-  Network,
-  Scale,
-  Workflow,
-} from "lucide-react";
-
-import { GovernanceArt } from "@/components/diagrams/hero-art";
+/* type: service · hero photo · moment: picture-develops en el puente hacia Tecnología */
 import { Bridge } from "@/components/site/bridge";
-import { CtaBand } from "@/components/site/cta-band";
 import { Faq } from "@/components/site/faq";
 import { DeliverableGrid, ProblemGrid } from "@/components/site/lists";
 import { PageHero } from "@/components/site/page-hero";
 import { Section, SectionHeading } from "@/components/site/section";
+import { SiteFooter } from "@/components/site/site-footer";
 import { governance, governanceSeo } from "@/content/governance";
 import { JsonLd, pageMetadata, serviceLd } from "@/lib/seo";
 
 export const metadata = pageMetadata(governanceSeo);
-
-const serviceIcons: Record<string, React.ReactNode> = {
-  strategy: <Map />,
-  itgov: <Scale />,
-  process: <Workflow />,
-  docs: <FileText />,
-};
-
-const deliverableIcons = [
-  <BarChart3 key="a" />,
-  <GitBranch key="b" />,
-  <Map key="c" />,
-  <Network key="d" />,
-  <FileCheck2 key="e" />,
-  <LayoutDashboard key="f" />,
-];
 
 export default function GovernancePage() {
   const { hero, problems, services, deliverables, bridge, start, faqs } = governance;
 
   return (
     <>
-      <JsonLd
-        data={serviceLd(
-          "Consultoría de gobierno de TI",
-          governanceSeo.description,
-          governanceSeo.path,
-        )}
-      />
-      <PageHero
-        h1={hero.h1}
-        intro={hero.intro}
-        primary={hero.primary}
-        secondary={hero.secondary}
-        breadcrumbs={[{ name: "Gobernanza y Consultoría", path: governanceSeo.path }]}
-        art={<GovernanceArt />}
-      />
+      <main id="contenido">
+        <JsonLd data={serviceLd("Consultoría de gobierno de TI", governanceSeo.description, governanceSeo.path)} />
+        <PageHero
+          h1={hero.h1}
+          intro={hero.intro}
+          primary={hero.primary}
+          secondary={hero.secondary}
+          breadcrumbs={[{ name: "Gobernanza y Consultoría", path: governanceSeo.path }]}
+          photo="cantilever"
+          legend={["Matriz de responsabilidades", "Hoja de ruta", "Documentos"]}
+          pos="60% 50%"
+        />
 
-      <Section labelledBy="problemas-title">
-        <SectionHeading id="problemas-title" title={problems.title} lead={problems.lead} />
-        <ProblemGrid items={problems.items} />
-        <p className="mt-8 max-w-3xl rounded-2xl bg-secondary p-6 text-lg leading-relaxed text-secondary-foreground">
-          {problems.closing}
-        </p>
-      </Section>
+        <Section labelledBy="problemas-title" hm={2}>
+          <SectionHeading id="problemas-title" no={1} title={problems.title} lead={problems.lead} />
+          <ProblemGrid items={problems.items} columns={2} compact />
+          <p className="note" style={{ marginTop: "var(--s-7)" }}>
+            {problems.closing}
+          </p>
+        </Section>
 
-      <Section tone="muted" labelledBy="servicios-title">
-        <SectionHeading id="servicios-title" title={services.title} />
-        <div className="grid gap-5 md:grid-cols-2">
-          {services.items.map((s) => (
-            <article
-              key={s.key}
-              className="rounded-2xl border bg-card p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5"
-            >
-              <span
-                aria-hidden="true"
-                className="mb-5 flex size-11 items-center justify-center rounded-xl bg-secondary text-primary [&_svg]:size-5"
-              >
-                {serviceIcons[s.key]}
-              </span>
-              <h3 className="text-xl font-semibold tracking-tight">{s.title}</h3>
-              <div className="mt-3 space-y-3 leading-relaxed text-muted-foreground">
+        <Section ground="inverse" labelledBy="servicios-title" hm={3}>
+          <SectionHeading id="servicios-title" no={2} title={services.title} />
+          <div className="plan" style={{ "--cols": 2 } as React.CSSProperties}>
+            {services.items.map((s, i) => (
+              <article className="card m-nolift" key={s.key}>
+                <span className="plan__no">{String(i + 1).padStart(2, "0")}</span>
+                <h3>{s.title}</h3>
                 {s.paragraphs.map((p) => (
                   <p key={p}>{p}</p>
                 ))}
-              </div>
-            </article>
-          ))}
-        </div>
-      </Section>
+              </article>
+            ))}
+          </div>
+        </Section>
 
-      <Section id={deliverables.id} tone="brand" labelledBy="entregables-title">
-        <SectionHeading
-          id="entregables-title"
-          eyebrow="Entregables"
-          title={deliverables.title}
-          lead={deliverables.lead}
-        />
-        <DeliverableGrid items={deliverables.items} icons={deliverableIcons} />
-      </Section>
+        <Section id={deliverables.id} labelledBy="entregables-title" hm={2}>
+          <SectionHeading
+            id="entregables-title"
+            no={3}
+            eyebrow="Entregables"
+            title={deliverables.title}
+            lead={deliverables.lead}
+          />
+          <DeliverableGrid items={deliverables.items} />
+        </Section>
 
-      <Bridge title={bridge.title} text={bridge.text} cta={bridge.cta} />
+        <Bridge title={bridge.title} text={bridge.text} cta={bridge.cta} photo="glass" no={4} />
 
-      <CtaBand title={start.title} text={start.text} cta={start.cta} />
-
-      <Faq items={faqs} tone="muted" />
+        <Faq items={faqs} no={5} photo="spiral" />
+      </main>
+      <SiteFooter close={start} />
     </>
   );
 }

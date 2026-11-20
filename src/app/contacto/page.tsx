@@ -1,12 +1,12 @@
-import { Mail, Phone } from "lucide-react";
-
+/* type: service · hero photo · moment: picture-develops junto a las preguntas frecuentes */
 import { ContactForm } from "@/components/site/contact-form";
-import { Faq } from "@/components/site/faq";
 import { CheckList } from "@/components/site/lists";
 import { PageHero } from "@/components/site/page-hero";
+import { Photo } from "@/components/site/photo";
 import { Section } from "@/components/site/section";
+import { SiteFooter } from "@/components/site/site-footer";
 import { contact, contactSeo } from "@/content/contact";
-import { pageMetadata } from "@/lib/seo";
+import { JsonLd, faqLd, pageMetadata } from "@/lib/seo";
 import { site, whatsappUrl } from "@/lib/site";
 
 export const metadata = pageMetadata(contactSeo);
@@ -16,82 +16,112 @@ export default function ContactPage() {
 
   return (
     <>
-      <PageHero
-        h1={hero.h1}
-        intro={[hero.intro]}
-        secondary={{ label: form.whatsapp, href: whatsappUrl }}
-        breadcrumbs={[{ name: "Contacto", path: contactSeo.path }]}
-      />
+      <main id="contenido">
+        <PageHero
+          h1={hero.h1}
+          intro={[hero.intro]}
+          primary={{ label: "Enviar consulta", href: "#formulario" }}
+          secondary={{ label: form.whatsapp, href: whatsappUrl }}
+          breadcrumbs={[{ name: "Contacto", path: contactSeo.path }]}
+          photo="spiral"
+          pos="50% 35%"
+          short
+        />
 
-      <Section id="formulario" labelledBy="formulario-title" className="py-12 sm:py-16">
-        <h2 id="formulario-title" className="sr-only">
-          Formulario de contacto
-        </h2>
-        <div className="grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-14">
-          <div className="space-y-4">
-            <ContactForm />
-          </div>
-
-          <aside className="space-y-6">
-            <div className="rounded-2xl border bg-card p-6">
-              <h2 className="mb-4 text-xl font-semibold tracking-tight">{prepare.title}</h2>
-              <CheckList items={prepare.items} />
-              <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{prepare.closing}</p>
+        <Section id="formulario" labelledBy="formulario-title" hm={3}>
+          <div className="split">
+            <div className="split__wide">
+              <div className="section-head">
+                <p className="sec-no">
+                  <b>01</b>
+                </p>
+                <h2 id="formulario-title">Formulario de contacto</h2>
+              </div>
+              <ContactForm />
             </div>
-
-            <div className="rounded-2xl border bg-card p-6">
-              <h2 className="mb-4 text-xl font-semibold tracking-tight">{next.title}</h2>
-              <ol className="space-y-4">
-                {next.items.map((item, i) => (
-                  <li key={item} className="flex gap-3 leading-relaxed">
-                    <span
-                      aria-hidden="true"
-                      className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground"
-                    >
-                      {i + 1}
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            <div className="rounded-2xl border bg-brand-50 p-6 dark:bg-brand-900/20">
-              <h2 className="mb-4 text-xl font-semibold tracking-tight">{channels.title}</h2>
-              <ul className="space-y-3">
-                <li>
-                  <a
-                    href={`mailto:${site.email}`}
-                    className="inline-flex items-center gap-3 rounded-sm font-medium underline-offset-4 outline-none hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
-                  >
-                    <Mail className="size-5 text-primary" aria-hidden="true" />
-                    <span>
+            <aside className="split__narrow stack" style={{ display: "grid", gap: "var(--s-7)" }}>
+              <div className="stack-sm">
+                <h3 className="statement" style={{ fontSize: "var(--t-h3)" }}>
+                  {prepare.title}
+                </h3>
+                <CheckList items={prepare.items} />
+                <p className="t-small muted">{prepare.closing}</p>
+              </div>
+              <div className="stack-sm">
+                <h3 className="statement" style={{ fontSize: "var(--t-h3)" }}>
+                  {next.title}
+                </h3>
+                <ol className="index index--compact">
+                  {next.items.map((item, i) => (
+                    <li key={item}>
+                      <span className="index__no" aria-hidden="true">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <p className="index__body" style={{ fontSize: "var(--t-body)" }}>
+                        {item}
+                      </p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div className="stack-sm">
+                <h3 className="statement" style={{ fontSize: "var(--t-h3)" }}>
+                  {channels.title}
+                </h3>
+                <ul className="footer__contact" style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                  <li>
+                    <a href={`mailto:${site.email}`}>
                       <span className="sr-only">Correo: </span>
                       {site.email}
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 rounded-sm font-medium underline-offset-4 outline-none hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
-                  >
-                    <Phone className="size-5 text-primary" aria-hidden="true" />
-                    <span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                       <span className="sr-only">WhatsApp: </span>
                       {site.phone}
-                    </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </aside>
-        </div>
-      </Section>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </aside>
+          </div>
+        </Section>
 
-      <Faq items={faqs} tone="muted" />
+        <section id="preguntas-frecuentes" className="section ground-surface" aria-labelledby="faq-title">
+          <JsonLd data={faqLd(faqs)} />
+          <div className="wrap">
+            <div className="split">
+              <div className="split__a stack">
+                <div className="section-head">
+                  <p className="sec-no">
+                    <b>02</b>
+                  </p>
+                  <h2 id="faq-title">Preguntas frecuentes</h2>
+                </div>
+                <figure
+                  className="photo-frame split__photo develop"
+                  data-moment="picture-develops"
+                  data-moment-opts='{"look":"film"}'
+                >
+                  <Photo id="steps" />
+                </figure>
+              </div>
+              <div className="split__b faq-list">
+                {faqs.map((item) => (
+                  <details key={item.q}>
+                    <summary>
+                      <h3>{item.q}</h3>
+                      <span className="faq-plus" aria-hidden="true" />
+                    </summary>
+                    <p>{item.a}</p>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <SiteFooter />
     </>
   );
 }

@@ -1,94 +1,62 @@
-import { Check } from "lucide-react";
+import { Photo } from "@/components/site/photo";
+import type { PhotoId } from "@/lib/photos";
 
-import { cn } from "@/lib/utils";
-
-/** Lista con marcas de verificación. */
-export function CheckList({
-  items,
-  className,
-  tone = "default",
-}: {
-  items: string[];
-  className?: string;
-  tone?: "default" | "onTint";
-}) {
+/** Lista con marcas (cuadro de cota). */
+export function CheckList({ items, className }: { items: string[]; className?: string; tone?: string }) {
   return (
-    <ul className={cn("space-y-3", className)}>
+    <ul className={["ticks", className].filter(Boolean).join(" ")}>
       {items.map((item) => (
-        <li key={item} className="flex gap-3 leading-relaxed">
-          <span
-            aria-hidden="true"
-            className={cn(
-              "mt-1 flex size-5 shrink-0 items-center justify-center rounded-full",
-              tone === "onTint" ? "bg-card text-primary" : "bg-secondary text-primary",
-            )}
-          >
-            <Check className="size-3" strokeWidth={3} />
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
+  );
+}
+
+const no = (i: number) => String(i + 1).padStart(2, "0");
+
+/** Índice numerado de problemas, como el cuadro de un plano: número en serif y filete por fila. */
+export function ProblemGrid({ items, columns = 2, compact }: { items: string[]; columns?: 1 | 2 | 3; compact?: boolean }) {
+  return (
+    <ol className={["index", columns > 1 && "index--2", compact && "index--compact"].filter(Boolean).join(" ")}>
+      {items.map((item, i) => (
+        <li key={item}>
+          <span className="index__no" aria-hidden="true">
+            {no(i)}
           </span>
-          <span>{item}</span>
+          <p className="index__body">{item}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/** Entregables ("Qué puedes recibir") como cuadro de plano en dos o tres columnas. */
+export function DeliverableGrid({ items, cols = 3 }: { items: string[]; cols?: 2 | 3; icons?: React.ReactNode[] }) {
+  return (
+    <ul className="plan" style={{ "--cols": cols } as React.CSSProperties}>
+      {items.map((item, i) => (
+        <li className="card m-nolift" key={item}>
+          <span className="plan__no" aria-hidden="true">
+            {no(i)}
+          </span>
+          <p className="t-lead">{item}</p>
         </li>
       ))}
     </ul>
   );
 }
 
-/** Tarjetas numeradas para problemas habituales. */
-export function ProblemGrid({
-  items,
-  columns = 3,
-}: {
-  items: string[];
-  columns?: 2 | 3;
-}) {
+/** Índice de problemas en una columna con una fotografía a la derecha (listas cortas). */
+export function ProblemSplit({ items, photo, head }: { items: string[]; photo: PhotoId; head: React.ReactNode }) {
   return (
-    <ul
-      className={cn(
-        "grid gap-4 sm:grid-cols-2",
-        columns === 3 && "lg:grid-cols-3",
-      )}
-    >
-      {items.map((item, i) => (
-        <li
-          key={item}
-          className="group relative rounded-2xl border bg-card p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md hover:shadow-primary/5"
-        >
-          <span
-            aria-hidden="true"
-            className="mb-4 flex size-9 items-center justify-center rounded-lg bg-secondary text-sm font-semibold text-primary"
-          >
-            {String(i + 1).padStart(2, "0")}
-          </span>
-          <p className="leading-relaxed">{item}</p>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-/** Tarjetas de entregables ("Qué puedes recibir"). */
-export function DeliverableGrid({
-  items,
-  icons,
-}: {
-  items: string[];
-  icons?: React.ReactNode[];
-}) {
-  return (
-    <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {items.map((item, i) => (
-        <li
-          key={item}
-          className="flex gap-4 rounded-2xl border bg-card p-5 transition-all duration-200 hover:border-primary/40 hover:shadow-md hover:shadow-primary/5"
-        >
-          <span
-            aria-hidden="true"
-            className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground [&_svg]:size-5"
-          >
-            {icons?.[i] ?? <Check strokeWidth={3} />}
-          </span>
-          <p className="self-center leading-snug font-medium">{item}</p>
-        </li>
-      ))}
-    </ul>
+    <div className="split">
+      <div className="split__wide">
+        {head}
+        <ProblemGrid items={items} columns={1} />
+      </div>
+      <div className="split__narrow photo-frame split__photo--tall">
+        <Photo id={photo} className="frame__img" decorative sizes="(min-width: 1024px) 40vw, 100vw" />
+      </div>
+    </div>
   );
 }

@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# artefactos locales del skill de diseño (capturas, perfiles de Chrome, QA)
+/.taste-skill/

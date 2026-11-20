@@ -1,80 +1,65 @@
-import { cn } from "@/lib/utils";
+type Ground = "base" | "surface" | "inverse";
 
-export function Container({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div className={cn("mx-auto w-full max-w-6xl px-5 sm:px-8", className)} {...props} />
-  );
-}
-
+/** Una sección = una o dos pantallas (--h), con un solo .wrap y su h2 primero. */
 export function Section({
   id,
-  tone = "default",
+  h = 1,
+  hm,
+  ground = "base",
   className,
   children,
   labelledBy,
+  moment,
 }: {
   id?: string;
-  tone?: "default" | "muted" | "brand";
+  h?: 1 | 2;
+  hm?: 1 | 2 | 3;
+  ground?: Ground;
   className?: string;
   children: React.ReactNode;
   labelledBy?: string;
+  moment?: string;
 }) {
+  const style = { "--h": h, ...(hm ? { "--hm": hm } : {}) } as React.CSSProperties;
   return (
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={cn(
-        "py-16 sm:py-24",
-        tone === "muted" && "bg-muted/60",
-        tone === "brand" && "bg-brand-50 dark:bg-brand-900/20",
-        className,
-      )}
+      className={["section", ground !== "base" && `ground-${ground}`, className].filter(Boolean).join(" ")}
+      style={style}
+      data-moment={moment}
     >
-      <Container>{children}</Container>
+      <div className="wrap">{children}</div>
     </section>
   );
 }
 
+/** Encabezado de sección: número de plano, rótulo opcional, h2 y entrada. */
 export function SectionHeading({
   id,
+  no,
   eyebrow,
   title,
   lead,
-  align = "left",
   className,
 }: {
   id?: string;
+  no?: number;
   eyebrow?: string;
-  title: string;
+  title: React.ReactNode;
   lead?: string;
-  align?: "left" | "center";
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        "mb-10 max-w-3xl sm:mb-12",
-        align === "center" && "mx-auto text-center",
-        className,
-      )}
-    >
-      {eyebrow && (
-        <p className="mb-3 text-xs font-semibold tracking-widest text-primary uppercase">
-          {eyebrow}
+    <div className={["section-head", className].filter(Boolean).join(" ")}>
+      {no !== undefined && (
+        <p className="sec-no" aria-hidden="true">
+          <b>{String(no).padStart(2, "0")}</b>
         </p>
       )}
-      <h2
-        id={id}
-        className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
-      >
-        {title}
-      </h2>
-      {lead && (
-        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{lead}</p>
-      )}
+      {eyebrow && <p className="sec-label">{eyebrow}</p>}
+      <h2 id={id}>{title}</h2>
+      {lead && <p>{lead}</p>}
     </div>
   );
 }

@@ -1,10 +1,10 @@
-import { Compass, Cpu } from "lucide-react";
-
-import { CtaBand } from "@/components/site/cta-band";
+/* type: service · hero photo · moment: picture-develops en "Quiénes somos" */
 import { CtaLink } from "@/components/site/cta-link";
 import { Faq } from "@/components/site/faq";
 import { PageHero } from "@/components/site/page-hero";
+import { Photo } from "@/components/site/photo";
 import { Section, SectionHeading } from "@/components/site/section";
+import { SiteFooter } from "@/components/site/site-footer";
 import { about, aboutSeo } from "@/content/about";
 import { pageMetadata } from "@/lib/seo";
 
@@ -15,99 +15,93 @@ export default function AboutPage() {
 
   return (
     <>
-      <PageHero
-        h1={hero.h1}
-        breadcrumbs={[{ name: "Nosotros", path: aboutSeo.path }]}
-      />
+      <main id="contenido">
+        <PageHero h1={hero.h1} breadcrumbs={[{ name: "Nosotros", path: aboutSeo.path }]} photo="columns" short />
 
-      <Section labelledBy="quienes-title">
-        <div className="grid gap-8 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
-          <SectionHeading id="quienes-title" title={who.title} className="mb-0 sm:mb-0" />
-          <p className="text-xl leading-relaxed text-muted-foreground">{who.text}</p>
-        </div>
-      </Section>
-
-      <Section tone="muted" labelledBy="enfoque-title">
-        <SectionHeading id="enfoque-title" title={approach.title} />
-        <ul className="grid gap-5 sm:grid-cols-2">
-          {approach.items.map((item, i) => (
-            <li
-              key={item.lead}
-              className="flex gap-4 rounded-2xl border bg-card p-6 transition-all duration-200 hover:border-primary/40 hover:shadow-md hover:shadow-primary/5"
-            >
-              <span
-                aria-hidden="true"
-                className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-sm font-semibold text-primary"
-              >
-                {i + 1}
-              </span>
-              <p className="leading-relaxed">
-                <strong className="font-semibold">{item.lead}</strong> {item.text}
+        <Section labelledBy="quienes-title" hm={2}>
+          <div className="split">
+            <div className="split__a stack">
+              <SectionHeading id="quienes-title" no={1} title={who.title} />
+              <p className="statement" style={{ fontSize: "clamp(22px, 1vw + 14px, 28px)" }}>
+                {who.text}
               </p>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section labelledBy="focos-title">
-        <SectionHeading id="focos-title" title={pillars.title} />
-        <div className="grid gap-6 md:grid-cols-2">
-          <article className="rounded-3xl border bg-card p-8">
-            <span aria-hidden="true" className="mb-5 flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-md shadow-primary/25">
-              <Compass className="size-6" />
-            </span>
-            <p className="leading-relaxed">{pillars.governance}</p>
-            <div className="mt-6">
-              <CtaLink href={pillars.ctas[0].href} variant="secondary" arrow>
-                {pillars.ctas[0].label}
-              </CtaLink>
             </div>
-          </article>
-          <article className="rounded-3xl border bg-card p-8">
-            <span aria-hidden="true" className="mb-5 flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-md shadow-primary/25">
-              <Cpu className="size-6" />
-            </span>
-            <p className="leading-relaxed">{pillars.technology}</p>
-            <div className="mt-6">
-              <CtaLink href={pillars.ctas[1].href} variant="secondary" arrow>
-                {pillars.ctas[1].label}
-              </CtaLink>
-            </div>
-          </article>
-        </div>
-        <p className="mt-8 max-w-3xl text-lg leading-relaxed text-muted-foreground">{pillars.closing}</p>
-      </Section>
-
-      <Section tone="brand" labelledBy="experiencia-title">
-        <div className="grid items-center gap-8 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
-          <div>
-            <SectionHeading id="experiencia-title" title={experience.title} lead={experience.text} className="mb-6 sm:mb-6" />
-            <CtaLink href={experience.link.href} variant="link">
-              {experience.link.label}
-            </CtaLink>
+            <figure
+              className="split__b photo-frame split__photo develop"
+              data-moment="picture-develops"
+              data-moment-opts='{"look":"film"}'
+            >
+              <Photo id="spiral" />
+            </figure>
           </div>
-          <ul aria-hidden="true" className="flex flex-wrap gap-3">
-            {experience.chips.map((c) => (
-              <li key={c} className="rounded-full border border-brand-200 bg-card px-5 py-2.5 font-medium text-brand-800 dark:text-brand-100">
-                {c}
+        </Section>
+
+        <Section ground="inverse" labelledBy="enfoque-title" hm={2}>
+          <SectionHeading id="enfoque-title" no={2} title={approach.title} />
+          <ol className="index index--2">
+            {approach.items.map((item, i) => (
+              <li key={item.lead}>
+                <span className="index__no" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div className="index__body">
+                  <h3>{item.lead}</h3>
+                  <p>{item.text}</p>
+                </div>
               </li>
             ))}
-          </ul>
-        </div>
-      </Section>
+          </ol>
+        </Section>
 
-      <Section labelledBy="publico-title" className="py-14 sm:py-16">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 id="publico-title" className="text-2xl font-semibold tracking-tight sm:text-3xl">
-            {audience.title}
-          </h2>
-          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{audience.text}</p>
-        </div>
-      </Section>
+        <Section labelledBy="focos-title" hm={2}>
+          <SectionHeading id="focos-title" no={3} title={pillars.title} />
+          <div className="plan" style={{ "--cols": 2 } as React.CSSProperties}>
+            {[pillars.governance, pillars.technology].map((text, i) => (
+              <article className="card m-nolift" key={text}>
+                <span className="plan__no">{String(i + 1).padStart(2, "0")}</span>
+                <p className="t-lead">{text}</p>
+                <div className="plan__foot">
+                  <CtaLink href={pillars.ctas[i].href} variant="secondary" arrow>
+                    {pillars.ctas[i].label}
+                  </CtaLink>
+                </div>
+              </article>
+            ))}
+          </div>
+          <p className="note" style={{ marginTop: "var(--s-7)" }}>
+            {pillars.closing}
+          </p>
+        </Section>
 
-      <Faq items={faqs} tone="muted" />
+        <Section ground="surface" labelledBy="experiencia-title" hm={2}>
+          <div className="split">
+            <div className="split__a stack">
+              <SectionHeading id="experiencia-title" no={4} title={experience.title} lead={experience.text} />
+              <CtaLink href={experience.link.href} variant="link">
+                {experience.link.label}
+              </CtaLink>
+            </div>
+            <div className="split__b stack">
+              <ul className="tags" aria-hidden="true">
+                {experience.chips.map((c) => (
+                  <li key={c}>{c}</li>
+                ))}
+              </ul>
+              <div style={{ paddingTop: "var(--s-6)" }}>
+                <h3 className="statement" style={{ fontSize: "var(--t-h3)" }}>
+                  {audience.title}
+                </h3>
+                <p className="lead" style={{ marginTop: "var(--s-3)" }}>
+                  {audience.text}
+                </p>
+              </div>
+            </div>
+          </div>
+        </Section>
 
-      <CtaBand title={finalCta.title} text={finalCta.text} cta={finalCta.cta} />
+        <Faq items={faqs} no={5} photo="stair" />
+      </main>
+      <SiteFooter close={finalCta} />
     </>
   );
 }

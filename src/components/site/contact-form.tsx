@@ -1,13 +1,8 @@
 "use client";
 
-import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
-import Link from "next/link";
 import { useId, useRef, useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { Arrow } from "@/components/site/cta-link";
 import { contact } from "@/content/contact";
 import {
   validateContact,
@@ -15,7 +10,6 @@ import {
   type ContactInput,
 } from "@/lib/contact-schema";
 import { paths } from "@/lib/site";
-import { cn } from "@/lib/utils";
 
 const { form: copy } = contact;
 type Status = "idle" | "sending" | "success" | "error";
@@ -79,8 +73,7 @@ export function ContactForm() {
 
   const fieldError = (k: keyof ContactInput) =>
     errors[k] ? (
-      <p id={id(`${k}-error`)} className="mt-1.5 flex items-center gap-1.5 text-sm text-destructive">
-        <AlertCircle className="size-4 shrink-0" aria-hidden="true" />
+      <p id={id(`${k}-error`)} className="field__error">
         {errors[k]}
       </p>
     ) : null;
@@ -92,87 +85,43 @@ export function ContactForm() {
 
   if (status === "success") {
     return (
-      <div
-        role="status"
-        className="rounded-2xl border border-primary/30 bg-brand-50 p-8 text-center dark:bg-brand-900/20"
-      >
-        <CheckCircle2 className="mx-auto mb-4 size-10 text-primary" aria-hidden="true" />
-        <p className="text-lg font-medium">{copy.messages.success}</p>
+      <div role="status" className="cform__done">
+        <p>{copy.messages.success}</p>
       </div>
     );
   }
 
-  return (
-    <form
-      ref={formRef}
-      onSubmit={onSubmit}
-      noValidate
-      className="space-y-5 rounded-2xl border bg-card p-6 shadow-sm sm:p-8"
-    >
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <Label htmlFor={id("name")} className="mb-2">
-            {copy.fields.name.label}
-          </Label>
-          <Input
-            id={id("name")}
-            name="name"
-            autoComplete="name"
-            required
-            placeholder={copy.fields.name.placeholder}
-            value={values.name}
-            onChange={(e) => update("name", e.target.value)}
-            onBlur={() => validateField("name")}
-            className="h-11"
-            {...aria("name")}
-          />
-          {fieldError("name")}
-        </div>
-        <div>
-          <Label htmlFor={id("email")} className="mb-2">
-            {copy.fields.email.label}
-          </Label>
-          <Input
-            id={id("email")}
-            name="email"
-            type="email"
-            autoComplete="email"
-            inputMode="email"
-            required
-            placeholder={copy.fields.email.placeholder}
-            value={values.email}
-            onChange={(e) => update("email", e.target.value)}
-            onBlur={() => validateField("email")}
-            className="h-11"
-            {...aria("email")}
-          />
-          {fieldError("email")}
-        </div>
-      </div>
+  const field = (
+    key: "name" | "email" | "company",
+    extra: React.InputHTMLAttributes<HTMLInputElement>,
+  ) => (
+    <div className="field">
+      <label htmlFor={id(key)}>{copy.fields[key].label}</label>
+      <input
+        id={id(key)}
+        name={key}
+        required
+        placeholder={copy.fields[key].placeholder}
+        value={values[key]}
+        onChange={(e) => update(key, e.target.value)}
+        onBlur={() => validateField(key)}
+        {...extra}
+        {...aria(key)}
+      />
+      {fieldError(key)}
+    </div>
+  );
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <Label htmlFor={id("company")} className="mb-2">
-            {copy.fields.company.label}
-          </Label>
-          <Input
-            id={id("company")}
-            name="company"
-            autoComplete="organization"
-            required
-            placeholder={copy.fields.company.placeholder}
-            value={values.company}
-            onChange={(e) => update("company", e.target.value)}
-            onBlur={() => validateField("company")}
-            className="h-11"
-            {...aria("company")}
-          />
-          {fieldError("company")}
-        </div>
-        <div>
-          <Label htmlFor={id("interest")} className="mb-2">
-            {copy.fields.interest.label}
-          </Label>
+  return (
+    <form ref={formRef} onSubmit={onSubmit} noValidate className="cform">
+      <div className="cform__row">
+        {field("name", { autoComplete: "name" })}
+        {field("email", { type: "email", autoComplete: "email", inputMode: "email" })}
+      </div>
+      <div className="cform__row">
+        {field("company", { autoComplete: "organization" })}
+        <div className="field">
+          <label htmlFor={id("interest")}>{copy.fields.interest.label}</label>
           <select
             id={id("interest")}
             name="interest"
@@ -180,17 +129,14 @@ export function ContactForm() {
             value={values.interest}
             onChange={(e) => update("interest", e.target.value)}
             onBlur={() => validateField("interest")}
-            className={cn(
-              "h-11 w-full rounded-lg border border-input bg-transparent px-2.5 text-base outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30",
-              !values.interest && "text-muted-foreground",
-            )}
+            className={values.interest ? undefined : "is-empty"}
             {...aria("interest")}
           >
             <option value="" disabled>
               Selecciona una opción
             </option>
             {copy.interestOptions.map((o) => (
-              <option key={o} value={o} className="text-foreground">
+              <option key={o} value={o}>
                 {o}
               </option>
             ))}
@@ -199,11 +145,9 @@ export function ContactForm() {
         </div>
       </div>
 
-      <div>
-        <Label htmlFor={id("message")} className="mb-2">
-          {copy.fields.message.label}
-        </Label>
-        <Textarea
+      <div className="field">
+        <label htmlFor={id("message")}>{copy.fields.message.label}</label>
+        <textarea
           id={id("message")}
           name="message"
           required
@@ -215,57 +159,35 @@ export function ContactForm() {
           {...aria("message")}
         />
         {fieldError("message")}
-        <p className="mt-2 text-sm text-muted-foreground">{copy.help}</p>
+        <p className="field__help">{copy.help}</p>
       </div>
 
       {/* Honeypot anti-spam: oculto para personas y lectores de pantalla. */}
-      <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+      <div aria-hidden="true" className="hp">
         <label>
           No completar
           <input type="text" name="website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
 
-      <div aria-live="polite" className="min-h-6">
-        {status === "sending" && (
-          <p className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-            {copy.messages.sending}
-          </p>
-        )}
+      <div className="cform__foot">
+        <button type="submit" className="btn btn--primary" disabled={status === "sending"}>
+          {copy.submit}
+          <Arrow />
+        </button>
+        <p className="cform__privacy">
+          {copy.privacyLead}{" "}
+          <a href={paths.privacy}>{copy.privacyLink}</a>
+        </p>
+      </div>
+
+      <div aria-live="polite" className="cform__status">
+        {status === "sending" && <p>{copy.messages.sending}</p>}
         {status === "error" && (
-          <p
-            role="alert"
-            className="flex items-start gap-2 rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive"
-          >
-            <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+          <p role="alert" className="is-error">
             {copy.messages.error}
           </p>
         )}
-      </div>
-
-      <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Button
-          type="submit"
-          disabled={status === "sending"}
-          className="h-11 gap-2 rounded-xl px-6 text-sm shadow-sm shadow-primary/25 hover:bg-brand-600"
-        >
-          {status === "sending" ? (
-            <Loader2 className="animate-spin" aria-hidden="true" />
-          ) : (
-            <Send aria-hidden="true" />
-          )}
-          {copy.submit}
-        </Button>
-        <p className="text-sm text-muted-foreground">
-          {copy.privacyLead}{" "}
-          <Link
-            href={paths.privacy}
-            className="text-primary underline underline-offset-4 hover:text-brand-700"
-          >
-            {copy.privacyLink}
-          </Link>
-        </p>
       </div>
     </form>
   );
